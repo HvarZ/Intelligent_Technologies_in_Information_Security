@@ -28,17 +28,14 @@ public class NeuralNetworkBoolean extends NeuralNetwork<Boolean, Boolean>  {
 
         weights = new float[matrix[0].length + 1];
 
-        int net = net(matrix[0]);
-        int fNet = fNet(net);
-        float delta = fNet - (result[0] ? 1 : 0);
-        int errorCount = (int)delta;
+        int net, errorCount;
+        float delta;
 
-        while (errorCount != 0) {
+        do {
             errorCount = 0;
             for (int i = 0; i < matrix.length; ++i) {
                 net = net(matrix[i]);
-                fNet = fNet(net);
-                delta = (result[i] ? 1 : 0) - fNet;
+                delta = (result[i] ? 1 : 0) - fNet(net);
                 if (delta != 0) {
                     errorCount++;
                     weights[0] += getCorrectionWeight(true, delta);
@@ -47,7 +44,19 @@ public class NeuralNetworkBoolean extends NeuralNetwork<Boolean, Boolean>  {
                     }
                 }
             }
+        } while (errorCount != 0);
+    }
+
+    public void fitLogistic(Boolean[][] matrix, Boolean[] result) throws NeuralException {
+        if (matrix.length <= 0 || matrix[0].length <= 0) {
+            throw new NeuralException("Input data is clear");
         }
+
+        if (matrix.length != result.length) {
+            throw new NeuralException("Invalid input data");
+        }
+
+
     }
 
     @Override

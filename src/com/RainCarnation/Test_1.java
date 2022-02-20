@@ -1,6 +1,6 @@
 package com.RainCarnation;
 
-public class Main {
+public class Test_1 {
     public static void main(String[] args) {
 	    Boolean[][] matrix = new Boolean[16][4];
         Boolean[] result = {false, true, false, true,
@@ -25,13 +25,33 @@ public class Main {
             setter = false;
         }
 
+        System.out.println("################   Threshold activation function   ################");
         try {
-            NeuralNetworkBoolean network = new NeuralNetworkBoolean(0.3f, 0.f);
-            network.fitLogistic(matrix, result);
+            NeuralNetworkBoolean network = new NeuralNetworkBoolean(0.3f);
+            network.fit(matrix, result);
+            System.out.print("Result vector: ");
             for (Boolean[] string : matrix) {
-                System.out.println(network.getResult(string));
+                System.out.print(network.getResult(string) ? 1 : 0);
             }
-        } catch (NeuralException e) {
+            System.out.println();
+            network.showFit();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        System.out.println("\n\n\n");
+        System.out.println("################   Logistic activation function   ################");
+
+        try {
+            NeuralNetworkBoolean network = new NeuralNetworkBoolean(0.3f);
+            network.fitLogistic(matrix, result);
+            System.out.print("Result vector: ");
+            for (Boolean[] string : matrix) {
+                System.out.print(network.getResultLogistic(string) ? 1 : 0);
+            }
+            System.out.println();
+            network.showFit();
+        } catch (Exception e) {
             System.err.println(e.getMessage());
         }
     }

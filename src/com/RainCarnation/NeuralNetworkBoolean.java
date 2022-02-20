@@ -1,23 +1,34 @@
 package com.RainCarnation;
 
-public class NeuralNetworkBoolean extends NeuralNetwork<Boolean, Boolean>  {
-    private float trainingNorm;
-    private float probabilityError;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 
-    public NeuralNetworkBoolean(float trainingNorm_, float probabilityError_) throws NeuralException {
+public class NeuralNetworkBoolean extends NeuralNetwork<Boolean, Boolean>  {
+    private final float trainingNorm;
+    private boolean operatingMode;
+    private boolean isLogistic;
+    private final BufferedWriter resultWriter;
+    private Boolean[] resultVector;
+
+    public NeuralNetworkBoolean(float trainingNorm_, OutputStream out) throws NeuralException {
         if (trainingNorm_ > 1 || trainingNorm_ < 0) {
             throw new NeuralException("Invalid training coefficient");
         }
-        if (probabilityError_ >= 1 || probabilityError_ < 0) {
-            throw new NeuralException("Invalid probability");
-        }
         trainingNorm = trainingNorm_;
-        probabilityError = probabilityError_;
         weights = null;
+
+        resultWriter = new BufferedWriter(new OutputStreamWriter(out));
+        resultVector = null;
+    }
+
+    public NeuralNetworkBoolean(float trainingNorm) throws NeuralException {
+        this(trainingNorm, System.out);
     }
 
     @Override
-    public void fit(Boolean[][] matrix, Boolean[] result) throws NeuralException {
+    public void fit(Boolean[][] matrix, Boolean[] result) throws Exception {
         if (matrix.length <= 0 || matrix[0].length <= 0) {
             throw new NeuralException("Input data is clear");
         }
@@ -27,18 +38,22 @@ public class NeuralNetworkBoolean extends NeuralNetwork<Boolean, Boolean>  {
         }
 
         weights = new float[matrix[0].length + 1];
+        resultVector = new Boolean[result.length];
 
-        int errorCount;
+
+        int errorCount, era = 0, fNetwork;
         float delta, net;
-        int era = 0;
 
         do {
             era++;
+            resultWriter.write("Era #" + era + "      ");
+
             errorCount = 0;
-            System.out.print("Era #" + era);
             for (int i = 0; i < matrix.length; ++i) {
                 net = net(matrix[i]);
-                delta = (result[i] ? 1 : 0) - fNet(net);
+                fNetwork = fNet(net);
+                delta = (result[i] ? 1 : 0) - fNetwork;
+                resultVector[i] = fNetwork == 1;
                 if (delta != 0) {
                     errorCount++;
                     weights[0] += getCorrectionWeight(true, delta);
@@ -47,11 +62,18 @@ public class NeuralNetworkBoolean extends NeuralNetwork<Boolean, Boolean>  {
                     }
                 }
             }
-            System.out.println("       Number error is " + errorCount);
+            resultWriter.write("Result vector: ");
+            for (Boolean value : resultVector) {
+                resultWriter.write(value ? "1" : "0");
+            }
+            resultWriter.write("      Number of error: " + errorCount + "\n");
         } while (errorCount != 0);
+
+        operatingMode = true;
+        isLogistic = false;
     }
 
-    public void fitLogistic(Boolean[][] matrix, Boolean[] result) throws NeuralException {
+    public void fitLogistic(Boolean[][] matrix, Boolean[] result) throws Exception {
         if (matrix.length <= 0 || matrix[0].length <= 0) {
             throw new NeuralException("Input data is clear");
         }
@@ -61,20 +83,20 @@ public class NeuralNetworkBoolean extends NeuralNetwork<Boolean, Boolean>  {
         }
 
         weights = new float[matrix[0].length + 1];
+        resultVector = new Boolean[result.length];
 
-        int errorCount;
+        int errorCount, era = 0, fNetwork;
         float delta, net;
-        int era = 0;
 
         do {
             era++;
+            resultWriter.write("Era #" + era + "      ");
             errorCount = 0;
-            System.out.print("Era #" + era);
-            System.out.print("       Result vector: ");
-            printVector();
             for (int i = 0; i < matrix.length; ++i) {
                 net = net(matrix[i]);
-                delta = (result[i] ? 1 : 0) - fNetLogistic(net);
+                fNetwork = fNetLogistic(net);
+                delta = (result[i] ? 1 : 0) - fNetwork;
+                resultVector[i] = fNetwork == 1;
                 if (delta != 0) {
                     errorCount++;
                     weights[0] += getCorrectionWeightLogistic(true, delta, net);
@@ -83,29 +105,36 @@ public class NeuralNetworkBoolean extends NeuralNetwork<Boolean, Boolean>  {
                     }
                 }
             }
-            System.out.println("       Number error is " + errorCount);
+            resultWriter.write("Result vector: ");
+            for (Boolean value : resultVector) {
+                resultWriter.write(value ? "1" : "0");
+            }
+            resultWriter.write("      Number of error: " + errorCount + "\n");
         } while (errorCount != 0);
+
+        operatingMode = true;
+        isLogistic = true;
     }
 
     @Override
-    public Boolean getResult(Boolean[] input) {
+    public Boolean getResult(Boolean[] input) throws NeuralException {
+        if (!operatingMode) {
+            throw new NeuralException("Network is not trained");
+        }
+        if (isLogistic) {
+            throw new NeuralException("Invalid mode");
+        }
+        return fNet(net(input)) == 1;
+    }
+
+    public Boolean getResultLogistic(Boolean[] input) throws NeuralException {
+        if (!operatingMode) {
+            throw new NeuralException("Network is not trained");
+        }
+        if (!isLogistic) {
+            throw new NeuralException("Invalid mode");
+        }
         return fNetLogistic(net(input)) == 1;
-    }
-
-    public float getTrainingNorm() {
-        return trainingNorm;
-    }
-
-    public void setTrainingNorm(float trainingNorm) {
-        this.trainingNorm = trainingNorm;
-    }
-
-    public float getProbabilityError() {
-        return probabilityError;
-    }
-
-    public void setProbabilityError(float probabilityError) {
-        this.probabilityError = probabilityError;
     }
 
     private float net(Boolean[] variables) {
@@ -114,31 +143,6 @@ public class NeuralNetworkBoolean extends NeuralNetwork<Boolean, Boolean>  {
             result += (variables[i - 1] ? 1 : 0) * weights[i];
         }
         return result;
-    }
-
-    private void printVector() {
-        Boolean[][] matrix = new Boolean[16][4];
-        int levelCounter = 0;
-        int levelController = 8;
-        boolean setter = false;
-
-        for (int i = 0; i < 4; ++i) {
-            for (int j = 0; j < 16; ++j) {
-                if (levelController == levelCounter) {
-                    setter ^= true;
-                    levelCounter = 0;
-                }
-                matrix[j][i] = setter;
-                levelCounter++;
-            }
-            levelController >>= 1;
-            levelCounter = 0;
-            setter = false;
-        }
-
-        for (Boolean[] string : matrix) {
-            System.out.print(getResult(string) ? 1 : 0);
-        }
     }
 
 
@@ -156,5 +160,10 @@ public class NeuralNetworkBoolean extends NeuralNetwork<Boolean, Boolean>  {
 
     private float getCorrectionWeightLogistic(Boolean variable, float d, float net) {
         return trainingNorm * d * (variable ? 1 : 0) * (float)(0.5 - 0.5 * Math.tanh(net));
+    }
+
+    @Override
+    public void showFit() throws IOException {
+        resultWriter.flush();
     }
 }

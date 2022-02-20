@@ -27,7 +27,7 @@ public class Main {
 
         try {
             NeuralNetworkBoolean network = new NeuralNetworkBoolean(0.3f, 0.f);
-            network.fit(matrix, result);
+            network.fitLogistic(matrix, result);
             for (Boolean[] string : matrix) {
                 System.out.println(network.getResult(string));
             }

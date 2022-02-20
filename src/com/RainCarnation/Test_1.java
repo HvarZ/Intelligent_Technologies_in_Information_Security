@@ -43,11 +43,11 @@ public class Test_1 {
         System.out.println("################   Logistic activation function   ################");
 
         try {
-            NeuralNetworkBoolean network = new NeuralNetworkBoolean(0.3f);
-            network.fitLogistic(matrix, result);
+            NeuralNetworkBoolean network = new NeuralNetworkBoolean(0.3f, true);
+            network.fit(matrix, result);
             System.out.print("Result vector: ");
             for (Boolean[] string : matrix) {
-                System.out.print(network.getResultLogistic(string) ? 1 : 0);
+                System.out.print(network.getResult(string) ? 1 : 0);
             }
             System.out.println();
             network.showFit();

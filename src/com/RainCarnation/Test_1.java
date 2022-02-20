@@ -27,7 +27,7 @@ public class Test_1 {
 
         System.out.println("################   Threshold activation function   ################");
         try {
-            NeuralNetworkBoolean network = new NeuralNetworkBoolean(0.3f);
+            NeuralNetworkBoolean network = new NeuralNetworkBooleanThreshold(0.3f);
             network.fit(matrix, result);
             System.out.print("Result vector: ");
             for (Boolean[] string : matrix) {
@@ -43,7 +43,7 @@ public class Test_1 {
         System.out.println("################   Logistic activation function   ################");
 
         try {
-            NeuralNetworkBoolean network = new NeuralNetworkBoolean(0.3f, true);
+            NeuralNetworkBooleanLogistic network = new NeuralNetworkBooleanLogistic(0.3f);
             network.fit(matrix, result);
             System.out.print("Result vector: ");
             for (Boolean[] string : matrix) {

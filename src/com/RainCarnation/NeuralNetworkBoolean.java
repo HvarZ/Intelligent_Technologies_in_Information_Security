@@ -5,32 +5,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
-public class NeuralNetworkBoolean extends NeuralNetwork<Boolean, Boolean>  {
-    private final float trainingNorm;
-    private final boolean isLogistic;
-    private final BufferedWriter resultWriter;
-    private Boolean[] resultVector;
-
-    public NeuralNetworkBoolean(float trainingNorm_, boolean isLogistic_, OutputStream out) throws NeuralException {
-        if (trainingNorm_ > 1 || trainingNorm_ < 0) {
-            throw new NeuralException("Invalid training coefficient");
-        }
-        trainingNorm = trainingNorm_;
-        isLogistic = isLogistic_;
-        weights = null;
-
-        resultWriter = new BufferedWriter(new OutputStreamWriter(out));
-        resultVector = null;
-    }
-
-    public NeuralNetworkBoolean(float trainingNorm, boolean isLogistic_) throws NeuralException {
-        this(trainingNorm, isLogistic_, System.out);
-    }
-
-    public NeuralNetworkBoolean(float trainingNorm) throws NeuralException {
-        this(trainingNorm, false, System.out);
-    }
-
+public abstract class NeuralNetworkBoolean extends NeuralNetwork<Boolean, Boolean>  {
+    protected float trainingNorm;
+    protected BufferedWriter resultWriter;
+    protected Boolean[] resultVector;
 
     @Override
     public void fit(Boolean[][] matrix, Boolean[] result) throws Exception {
@@ -44,7 +22,6 @@ public class NeuralNetworkBoolean extends NeuralNetwork<Boolean, Boolean>  {
 
         weights = new float[matrix[0].length + 1];
         resultVector = new Boolean[result.length];
-
 
         int errorCount, era = 0, fNetwork;
         float delta, net;
@@ -88,7 +65,7 @@ public class NeuralNetworkBoolean extends NeuralNetwork<Boolean, Boolean>  {
         resultWriter.flush();
     }
 
-    private float net(Boolean[] variables) {
+    protected float net(Boolean[] variables) {
         float result = weights[0];
         for (int i = 1; i < weights.length; ++i) {
             result += (variables[i - 1] ? 1 : 0) * weights[i];
@@ -96,20 +73,14 @@ public class NeuralNetworkBoolean extends NeuralNetwork<Boolean, Boolean>  {
         return result;
     }
 
+    protected void construct(float trainingNorm_, OutputStream out) {
+        trainingNorm = trainingNorm_;
+        weights = null;
 
-    private int fNet(float net) {
-        if (!isLogistic) {
-            return net < 0 ? 0 : 1;
-        } else {
-            return (int)Math.round(0.5 + 0.5 * Math.tanh(net));
-        }
+        resultWriter = new BufferedWriter(new OutputStreamWriter(out));
+        resultVector = null;
     }
 
-    private float getCorrectionWeight(Boolean variable, float d, float net) {
-        if (!isLogistic) {
-            return trainingNorm * d * (variable ? 1 : 0);
-        } else {
-            return trainingNorm * d * (variable ? 1 : 0) * (float)(0.5 - 0.5 * Math.tanh(net));
-        }
-    }
+    protected abstract int fNet(float net);
+    protected abstract float getCorrectionWeight(Boolean variable, float d, float net);
 }

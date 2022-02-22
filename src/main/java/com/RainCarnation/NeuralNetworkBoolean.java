@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
+
 public abstract class NeuralNetworkBoolean extends NeuralNetwork<Boolean, Boolean>  {
     protected float trainingNorm;
     protected BufferedWriter resultWriter;
@@ -63,6 +64,11 @@ public abstract class NeuralNetworkBoolean extends NeuralNetwork<Boolean, Boolea
     @Override
     public void showFit() throws IOException {
         resultWriter.flush();
+    }
+
+    @Override
+    public void showFitGraphics() {
+
     }
 
     protected float net(Boolean[] variables) {

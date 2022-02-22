@@ -10,4 +10,5 @@ public abstract class NeuralNetwork<T, R> {
     public abstract void fit(T[][] matrix, R[] result) throws Exception;
     public abstract R getResult(T[] input) throws NeuralException;
     public abstract void showFit() throws IOException;
+    public abstract void showFitGraphics();
 }

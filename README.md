@@ -13,3 +13,10 @@
 ![Activation](images/ActivationFunction.png)
  
 Точка входа лабораторной работы [test_1](src/test/java/Test_1.java)
+
+Результаты работы программы:
+
+* Пороговая функция
+![graph_1](images/graph_1.png)
+* Логистическая функция
+![graph_2](images/graph_2.png)

@@ -1,4 +1,6 @@
-package com.RainCarnation;
+import com.RainCarnation.NeuralNetworkBoolean;
+import com.RainCarnation.NeuralNetworkBooleanLogistic;
+import com.RainCarnation.NeuralNetworkBooleanThreshold;
 
 public class Test_1 {
     public static void fillStandardMatrix(Boolean[][] matrix) {
@@ -21,6 +23,16 @@ public class Test_1 {
         }
     }
 
+    public static void testingNetwork(NeuralNetworkBoolean network, Boolean[][] matrix, Boolean[] result) throws Exception {
+        network.fit(matrix, result);
+        System.out.print("Result vector: ");
+        for (Boolean[] string : matrix) {
+            System.out.print(network.getResult(string) ? 1 : 0);
+        }
+        System.out.println();
+        network.showFit();
+    }
+
     public static void main(String[] args) {
 	    Boolean[][] matrix = new Boolean[16][4];
         Boolean[] result = {false, true, false, true,
@@ -41,13 +53,7 @@ public class Test_1 {
 
         try {
             NeuralNetworkBoolean network = new NeuralNetworkBooleanThreshold(0.3f);
-            network.fit(matrix, result);
-            System.out.print("Result vector: ");
-            for (Boolean[] string : matrix) {
-                System.out.print(network.getResult(string) ? 1 : 0);
-            }
-            System.out.println();
-            network.showFit();
+            testingNetwork(network, matrix, result);
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
@@ -56,14 +62,8 @@ public class Test_1 {
         System.out.println("################   Threshold activation function (part data)   ################");
 
         try {
-            NeuralNetworkBooleanThreshold network = new NeuralNetworkBooleanThreshold(0.3f);
-            network.fit(matrixPart, resultPart);
-            System.out.print("Result vector: ");
-            for (Boolean[] string : matrix) {
-                System.out.print(network.getResult(string) ? 1 : 0);
-            }
-            System.out.println();
-            network.showFit();
+            NeuralNetworkBoolean network = new NeuralNetworkBooleanThreshold(0.3f);
+            testingNetwork(network, matrixPart, resultPart);
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
@@ -72,14 +72,8 @@ public class Test_1 {
         System.out.println("################   Logistic activation function   ################");
 
         try {
-            NeuralNetworkBooleanLogistic network = new NeuralNetworkBooleanLogistic(0.3f);
-            network.fit(matrix, result);
-            System.out.print("Result vector: ");
-            for (Boolean[] string : matrix) {
-                System.out.print(network.getResult(string) ? 1 : 0);
-            }
-            System.out.println();
-            network.showFit();
+            NeuralNetworkBoolean network = new NeuralNetworkBooleanLogistic(0.3f);
+            testingNetwork(network, matrix, result);
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
@@ -88,14 +82,8 @@ public class Test_1 {
         System.out.println("################   Logistic activation function (part data)   ################");
 
         try {
-            NeuralNetworkBooleanLogistic network = new NeuralNetworkBooleanLogistic(0.3f);
-            network.fit(matrixPart, resultPart);
-            System.out.print("Result vector: ");
-            for (Boolean[] string : matrix) {
-                System.out.print(network.getResult(string) ? 1 : 0);
-            }
-            System.out.println();
-            network.showFit();
+            NeuralNetworkBoolean network = new NeuralNetworkBooleanLogistic(0.3f);
+            testingNetwork(network, matrixPart, resultPart);
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }

@@ -31,6 +31,7 @@ public class Test_1 {
         }
         System.out.println();
         network.showFit();
+        network.showFitGraphics();
     }
 
     public static void main(String[] args) {

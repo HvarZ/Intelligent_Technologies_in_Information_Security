@@ -5,11 +5,19 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.github.sh0nk.matplotlib4j.Plot;
+
 
 public abstract class NeuralNetworkBoolean extends NeuralNetwork<Boolean, Boolean>  {
     protected float trainingNorm;
-    protected BufferedWriter resultWriter;
-    protected Boolean[] resultVector;
+
+    private BufferedWriter resultWriter;
+    private Boolean[] resultVector;
+    private List<Integer> numberErrors;
+    private String fitInfo;
 
     @Override
     public void fit(Boolean[][] matrix, Boolean[] result) throws Exception {
@@ -23,6 +31,8 @@ public abstract class NeuralNetworkBoolean extends NeuralNetwork<Boolean, Boolea
 
         weights = new float[matrix[0].length + 1];
         resultVector = new Boolean[result.length];
+        numberErrors = new ArrayList<>();
+
 
         int errorCount, era = 0, fNetwork;
         float delta, net;
@@ -50,6 +60,7 @@ public abstract class NeuralNetworkBoolean extends NeuralNetwork<Boolean, Boolea
                 resultWriter.write(value ? "1" : "0");
             }
             resultWriter.write("      Number of error: " + errorCount + "\n");
+            numberErrors.add(errorCount);
         } while (errorCount != 0);
     }
 
@@ -67,9 +78,33 @@ public abstract class NeuralNetworkBoolean extends NeuralNetwork<Boolean, Boolea
     }
 
     @Override
-    public void showFitGraphics() {
+    public void showFitGraphics() throws Exception {
+        Plot plot = Plot.create();
 
+        plot.plot().add(numberErrors);
+        plot.xlabel("K (number of eras)");
+        plot.ylabel("E(k) (number of errors in era)");
+        plot.show();
     }
+
+    @Override
+    public String fitResultToString() {
+        return resultWriter.toString();
+    }
+
+    @Override
+    public void saveFitResult() {
+        fitInfo = fitResultToString();
+    }
+
+    @Override
+    public void saveFitResult(OutputStream out) throws IOException {
+        fitInfo = fitResultToString();
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out));
+
+        writer.write(fitInfo);
+    }
+
 
     protected float net(Boolean[] variables) {
         float result = weights[0];

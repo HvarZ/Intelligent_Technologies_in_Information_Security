@@ -14,7 +14,7 @@
 ![Function](images/BooleanFunction.png)
 ![Activation](images/ActivationFunction.png)
  
-Точка входа лабораторной работы [test_1](src/test/java/Test_1.java)
+Точка входа лабораторной работы [test_1](src/test/java/Lab_1.java)
 
 Результаты работы программы:
 

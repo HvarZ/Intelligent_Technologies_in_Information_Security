@@ -2,7 +2,7 @@ import com.RainCarnation.NeuralNetworkBoolean;
 import com.RainCarnation.NeuralNetworkBooleanLogistic;
 import com.RainCarnation.NeuralNetworkBooleanThreshold;
 
-public class Test_1 {
+public class Lab_1 {
     public static void fillStandardMatrix(Boolean[][] matrix) {
         int levelCounter = 0;
         int levelController = (int)Math.pow(2, matrix[0].length - 1);

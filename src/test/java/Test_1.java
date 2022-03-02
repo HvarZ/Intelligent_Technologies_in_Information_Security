@@ -26,7 +26,9 @@ public class Test_1 {
     public static void testingNetwork(NeuralNetworkBoolean network, Boolean[][] matrix, Boolean[] result) throws Exception {
         network.fit(matrix, result);
         System.out.print("Result vector: ");
-        for (Boolean[] string : matrix) {
+        Boolean[][] fullMatrix = new Boolean[16][4];
+        fillStandardMatrix(fullMatrix);
+        for (Boolean[] string : fullMatrix) {
             System.out.print(network.getResult(string) ? 1 : 0);
         }
         System.out.println();
@@ -41,13 +43,23 @@ public class Test_1 {
                             false, true, true, true,
                             false, true, true, true,};
 
-        Boolean[][] matrixPart = new Boolean[9][4];
-        Boolean[] resultPart = {false, true, false, true,
-                                false, true, true, true,
-                                false};
+        Boolean[][] matrixPart = {{false, false, false, true},
+                                  {false, false, true, false},
+                                  {false, false, true, true},
+                                  {false, true, false, false},
+                                  {false, true, false, true},
+                                  {false, true, true, false},
+                                  {false, true, true, true},
+                                  {true, false, false, false},
+                                  {true, false, true, false},
+                                  {true, true, false, false},
+                                  {true, true, true, false}};
+
+        Boolean[] resultPart = {true, false, true, false,
+                                true, true, true, false,
+                                true, false, true};
 
         fillStandardMatrix(matrix);
-        fillStandardMatrix(matrixPart);
 
 
         System.out.println("################   Threshold activation function   ################");

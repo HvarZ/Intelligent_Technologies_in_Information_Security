@@ -9,8 +9,7 @@ import java.util.List;
 
 import com.github.sh0nk.matplotlib4j.Plot;
 
-
-public abstract class NeuralNetworkBoolean extends NeuralNetwork<Boolean, Boolean> {
+public abstract class NeuralNetworkBoolean extends NeuralNetwork<Boolean[], Boolean> {
     protected float trainingNorm;
 
     private Boolean[] resultVector;

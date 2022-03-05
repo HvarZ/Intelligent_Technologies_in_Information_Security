@@ -12,9 +12,9 @@ public abstract class NeuralNetwork<T, R> {
     protected BufferedWriter resultWriter;
     protected String fitInfo;
 
-    public abstract void fit(T[][] matrix, R[] result) throws Exception;
+    public abstract void fit(T[] matrix, R[] result) throws Exception;
 
-    public abstract R getResult(T[] input) throws NeuralException;
+    public abstract R getResult(T input) throws NeuralException;
 
     public abstract void showFitGraphics() throws Exception;
 

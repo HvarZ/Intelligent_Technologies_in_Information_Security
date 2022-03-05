@@ -1,7 +1,6 @@
 package com.RainCarnation;
 
 import java.io.BufferedWriter;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
@@ -11,13 +10,11 @@ import java.util.List;
 import com.github.sh0nk.matplotlib4j.Plot;
 
 
-public abstract class NeuralNetworkBoolean extends NeuralNetwork<Boolean, Boolean>  {
+public abstract class NeuralNetworkBoolean extends NeuralNetwork<Boolean, Boolean> {
     protected float trainingNorm;
 
-    private BufferedWriter resultWriter;
     private Boolean[] resultVector;
     private List<Integer> numberErrors;
-    private String fitInfo;
 
     @Override
     public void fit(Boolean[][] matrix, Boolean[] result) throws Exception {
@@ -26,7 +23,7 @@ public abstract class NeuralNetworkBoolean extends NeuralNetwork<Boolean, Boolea
         }
 
         if (matrix.length != result.length) {
-            throw  new NeuralException("Invalid input data");
+            throw new NeuralException("Invalid input data");
         }
 
         weights = new float[matrix[0].length + 1];
@@ -73,11 +70,6 @@ public abstract class NeuralNetworkBoolean extends NeuralNetwork<Boolean, Boolea
     }
 
     @Override
-    public void showFit() throws IOException {
-        resultWriter.flush();
-    }
-
-    @Override
     public void showFitGraphics() throws Exception {
         Plot plot = Plot.create();
 
@@ -85,24 +77,6 @@ public abstract class NeuralNetworkBoolean extends NeuralNetwork<Boolean, Boolea
         plot.xlabel("K (number of eras)");
         plot.ylabel("E(k) (number of errors in era)");
         plot.show();
-    }
-
-    @Override
-    public String fitResultToString() {
-        return resultWriter.toString();
-    }
-
-    @Override
-    public void saveFitResult() {
-        fitInfo = fitResultToString();
-    }
-
-    @Override
-    public void saveFitResult(OutputStream out) throws IOException {
-        fitInfo = fitResultToString();
-        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out));
-
-        writer.write(fitInfo);
     }
 
 
@@ -123,5 +97,6 @@ public abstract class NeuralNetworkBoolean extends NeuralNetwork<Boolean, Boolea
     }
 
     protected abstract int fNet(float net);
+
     protected abstract float getCorrectionWeight(Boolean variable, float d, float net);
 }

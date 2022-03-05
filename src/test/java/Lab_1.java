@@ -2,6 +2,9 @@ import com.RainCarnation.NeuralNetworkBoolean;
 import com.RainCarnation.NeuralNetworkBooleanLogistic;
 import com.RainCarnation.NeuralNetworkBooleanThreshold;
 
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+
 public class Lab_1 {
     public static void fillStandardMatrix(Boolean[][] matrix) {
         int levelCounter = 0;
@@ -23,15 +26,18 @@ public class Lab_1 {
         }
     }
 
-    public static void testingNetwork(NeuralNetworkBoolean network, Boolean[][] matrix, Boolean[] result) throws Exception {
+    public static void testingNetwork(NeuralNetworkBoolean network, Boolean[][] matrix, Boolean[] result, String TestName) throws Exception {
         network.fit(matrix, result);
-        System.out.print("Result vector: ");
+        FileWriter writer = new FileWriter("results/lab_1.txt", true);
+        writer.write(TestName + "\n");
+        writer.write("Result vector: ");
         Boolean[][] fullMatrix = new Boolean[16][4];
         fillStandardMatrix(fullMatrix);
         for (Boolean[] string : fullMatrix) {
-            System.out.print(network.getResult(string) ? 1 : 0);
+            writer.write(network.getResult(string) ? "1" : "0");
         }
-        System.out.println();
+        writer.write('\n');
+        writer.flush();
         network.showFit();
         network.showFitGraphics();
     }
@@ -61,42 +67,25 @@ public class Lab_1 {
 
         fillStandardMatrix(matrix);
 
-
-        System.out.println("################   Threshold activation function   ################");
-
         try {
-            NeuralNetworkBoolean network = new NeuralNetworkBooleanThreshold(0.3f);
-            testingNetwork(network, matrix, result);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-        }
+            FileOutputStream out = new FileOutputStream("results/lab_1.txt", true);
+            new FileWriter("results/lab_1.txt", false).close();
 
-        System.out.println("\n\n\n");
-        System.out.println("################   Threshold activation function (part data)   ################");
 
-        try {
-            NeuralNetworkBoolean network = new NeuralNetworkBooleanThreshold(0.3f);
-            testingNetwork(network, matrixPart, resultPart);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-        }
+            NeuralNetworkBoolean network = new NeuralNetworkBooleanThreshold(0.3f, out);
+            testingNetwork(network, matrix, result, "################   Threshold activation function   ################");
 
-        System.out.println("\n\n\n");
-        System.out.println("################   Logistic activation function   ################");
 
-        try {
-            NeuralNetworkBoolean network = new NeuralNetworkBooleanLogistic(0.3f);
-            testingNetwork(network, matrix, result);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-        }
+            NeuralNetworkBoolean network_2 = new NeuralNetworkBooleanThreshold(0.3f, out);
+            testingNetwork(network_2, matrixPart, resultPart, "\n\n\n################   Threshold activation function (part data)   ################");
 
-        System.out.println("\n\n\n");
-        System.out.println("################   Logistic activation function (part data)   ################");
 
-        try {
-            NeuralNetworkBoolean network = new NeuralNetworkBooleanLogistic(0.3f);
-            testingNetwork(network, matrixPart, resultPart);
+            NeuralNetworkBoolean network_3 = new NeuralNetworkBooleanLogistic(0.3f, out);
+            testingNetwork(network_3, matrix, result, "\n\n\n################   Logistic activation function   ################");
+
+
+            NeuralNetworkBoolean network_4 = new NeuralNetworkBooleanLogistic(0.3f, out);
+            testingNetwork(network_4, matrixPart, resultPart, "\n\n\n################   Logistic activation function (part data)   ################");
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }

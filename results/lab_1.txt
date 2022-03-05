@@ -34,28 +34,33 @@ Era #15      Result vector: 10101110101      Number of error: 0
 
 ################   Logistic activation function   ################
 Result vector: 0101011101110111
-Era #1      Result vector: 1010110111110111      Number of error: 7
-Era #2      Result vector: 0111010101111011      Number of error: 4
-Era #3      Result vector: 0111110101111101      Number of error: 5
-Era #4      Result vector: 0111111101011111      Number of error: 4
-Era #5      Result vector: 0111010101110111      Number of error: 2
-Era #6      Result vector: 0111011101010111      Number of error: 2
-Era #7      Result vector: 0111011101110111      Number of error: 1
-Era #8      Result vector: 0111011101110111      Number of error: 1
+Era #1      Result vector: 1001010110111111      Number of error: 6
+Era #2      Result vector: 1111010101011111      Number of error: 5
+Era #3      Result vector: 0111010101110111      Number of error: 2
+Era #4      Result vector: 0111010101111011      Number of error: 4
+Era #5      Result vector: 0111110101011111      Number of error: 5
+Era #6      Result vector: 0111010101110111      Number of error: 2
+Era #7      Result vector: 0111011100111101      Number of error: 4
+Era #8      Result vector: 0111011101011111      Number of error: 3
 Era #9      Result vector: 0101011101110111      Number of error: 0
 
 
 
 ################   Logistic activation function (part data)   ################
 Result vector: 0101011101110111
-Era #1      Result vector: 11010111010      Number of error: 8
-Era #2      Result vector: 11111110101      Number of error: 2
-Era #3      Result vector: 11101011101      Number of error: 3
-Era #4      Result vector: 11101010101      Number of error: 2
+Era #1      Result vector: 11001011011      Number of error: 6
+Era #2      Result vector: 11101110010      Number of error: 4
+Era #3      Result vector: 11101110101      Number of error: 1
+Era #4      Result vector: 11100110110      Number of error: 4
 Era #5      Result vector: 11101110011      Number of error: 3
-Era #6      Result vector: 11101110011      Number of error: 3
-Era #7      Result vector: 11100110101      Number of error: 2
+Era #6      Result vector: 11100110011      Number of error: 4
+Era #7      Result vector: 11101010101      Number of error: 2
 Era #8      Result vector: 11101010110      Number of error: 4
-Era #9      Result vector: 11101110101      Number of error: 1
-Era #10      Result vector: 11101110011      Number of error: 3
-Era #11      Result vector: 10101110101      Number of error: 0
+Era #9      Result vector: 11101110011      Number of error: 3
+Era #10      Result vector: 11101010101      Number of error: 2
+Era #11      Result vector: 11101110011      Number of error: 3
+Era #12      Result vector: 01101010101      Number of error: 3
+Era #13      Result vector: 11101110011      Number of error: 3
+Era #14      Result vector: 10101110001      Number of error: 1
+Era #15      Result vector: 11101110101      Number of error: 1
+Era #16      Result vector: 10101110101      Number of error: 0

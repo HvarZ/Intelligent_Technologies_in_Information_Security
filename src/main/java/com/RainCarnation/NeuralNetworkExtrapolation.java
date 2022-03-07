@@ -8,7 +8,7 @@ import java.util.SortedMap;
 
 public class NeuralNetworkExtrapolation extends NeuralNetwork<Float, Float> {
     private float trainingNorm;
-    private float lengthWindow;
+    private int lengthWindow;
     private SortedMap<Float, Float> plotResult;
 
     private void construct(float trainingNorm_, int lengthWindow_, OutputStream out) {
@@ -50,8 +50,37 @@ public class NeuralNetworkExtrapolation extends NeuralNetwork<Float, Float> {
             throw new NeuralException("Invalid input data");
         }
 
-        weights = new float[matrix.length + 1];
+        if (matrix.length <= lengthWindow) {
+            throw new NeuralException("Invalid input data");
+        }
 
+        weights = new float[lengthWindow];
+        //weights[0] = 1;
+
+        float epsilon;
+
+        float net, fNet, delta;
+        int era = 0;
+
+        do {
+            epsilon = 0;
+            era++;
+            for (int i = 0; i < matrix.length - weights.length; ++i) {
+                net = net(result);
+                fNet = fNet(net);
+                delta = result[weights.length + i] - fNet;
+                epsilon += delta * delta;
+
+                for (int j = 0; j < weights.length; ++j) {
+                    weights[j] += getCorrectionWeight(delta, result[i + j]);
+                }
+            }
+
+            epsilon = (float)Math.sqrt(epsilon);
+
+        } while (epsilon > 0.25f);
+
+        System.out.println(era);
     }
 
     @Override
@@ -62,5 +91,30 @@ public class NeuralNetworkExtrapolation extends NeuralNetwork<Float, Float> {
     @Override
     public void showFitGraphics() throws Exception {
 
+    }
+
+    private float net(Float[] variables) {
+        float result = 0;
+        for (int i = 0; i < weights.length; ++i) {
+            result += weights[i] * variables[variables.length - weights.length + i - 1];
+        }
+        return result + average(variables);
+    }
+
+    private float fNet(float net) {
+        return net;
+    }
+
+    private static float average(Float[] values) {
+        float result = 0;
+        for (Float value : values) {
+            result += value;
+        }
+
+        return result / values.length;
+    }
+
+    private float getCorrectionWeight(float delta, float variable) {
+        return trainingNorm * delta * variable;
     }
 }

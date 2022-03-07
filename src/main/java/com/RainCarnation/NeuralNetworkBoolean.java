@@ -97,5 +97,5 @@ public abstract class NeuralNetworkBoolean extends NeuralNetwork<Boolean[], Bool
 
     protected abstract int fNet(float net);
 
-    protected abstract float getCorrectionWeight(Boolean variable, float d, float net);
+    protected abstract float getCorrectionWeight(boolean variable, float d, float net);
 }

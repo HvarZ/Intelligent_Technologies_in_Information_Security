@@ -20,7 +20,7 @@ public class NeuralNetworkBooleanLogistic extends NeuralNetworkBoolean {
     }
 
     @Override
-    protected float getCorrectionWeight(Boolean variable, float d, float net) {
+    protected float getCorrectionWeight(boolean variable, float d, float net) {
         return trainingNorm * d * (variable ? 1 : 0) * (float) (Math.pow(1 / Math.cosh(net), 2) / 2);
     }
 }

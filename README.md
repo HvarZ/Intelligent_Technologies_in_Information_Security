@@ -26,6 +26,7 @@
 
 [Методическое пособие](study_guides/MetodichkaII_2017.pdf) к лабораторной работе.
 
+Моделируемая функция:
 ![Моделируемая фунция](images/ExtrapolationFunction.png)
 
 Точка входа лабораторной работы [test_2](src/test/java/Lab_2.java)

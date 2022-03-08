@@ -3,13 +3,13 @@ package com.RainCarnation;
 import java.io.BufferedWriter;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.util.SortedMap;
+import java.util.ArrayList;
 
 
 public class NeuralNetworkExtrapolation extends NeuralNetwork<Float, Float> {
     private float trainingNorm;
     private int lengthWindow;
-    private SortedMap<Float, Float> plotResult;
+    private ArrayList<Float> plotResult;
 
     private void construct(float trainingNorm_, int lengthWindow_, OutputStream out) {
         this.trainingNorm = trainingNorm_;
@@ -54,33 +54,31 @@ public class NeuralNetworkExtrapolation extends NeuralNetwork<Float, Float> {
             throw new NeuralException("Invalid input data");
         }
 
-        weights = new float[lengthWindow];
-        //weights[0] = 1;
+        weights = new float[lengthWindow + 1];
 
-        float epsilon;
-
-        float net, fNet, delta;
-        int era = 0;
+        float net, epsilon, delta;
 
         do {
             epsilon = 0;
-            era++;
-            for (int i = 0; i < matrix.length - weights.length; ++i) {
-                net = net(result);
-                fNet = fNet(net);
-                delta = result[weights.length + i] - fNet;
-                epsilon += delta * delta;
+            for (int i = 0; i < result.length - weights.length; ++i) {
+                net = net(result, i);
+                delta = result[weights.length + i] - net;
 
-                for (int j = 0; j < weights.length; ++j) {
-                    weights[j] += getCorrectionWeight(delta, result[i + j]);
+                for (int j = 1; j < weights.length; ++j) {
+                    weights[j] += getCorrectionWeight(delta, result[i + j - 1]);
                 }
             }
 
+            for (int i = 0; i < result.length - weights.length; ++i) {
+                net = net(result, i);
+                delta = result[weights.length + i] - net;
+                epsilon += (delta * delta);
+            }
+
             epsilon = (float)Math.sqrt(epsilon);
+            System.out.println(epsilon);
 
-        } while (epsilon > 0.25f);
-
-        System.out.println(era);
+        } while (epsilon > 0.01f);
     }
 
     @Override
@@ -93,25 +91,12 @@ public class NeuralNetworkExtrapolation extends NeuralNetwork<Float, Float> {
 
     }
 
-    private float net(Float[] variables) {
+    private float net(Float[] variables, int windowStart) {
         float result = 0;
-        for (int i = 0; i < weights.length; ++i) {
-            result += weights[i] * variables[variables.length - weights.length + i - 1];
+        for (int i = 1; i < weights.length; ++i) {
+            result += (weights[i] * variables[windowStart + i]);
         }
-        return result + average(variables);
-    }
-
-    private float fNet(float net) {
-        return net;
-    }
-
-    private static float average(Float[] values) {
-        float result = 0;
-        for (Float value : values) {
-            result += value;
-        }
-
-        return result / values.length;
+        return result + weights[0];
     }
 
     private float getCorrectionWeight(float delta, float variable) {

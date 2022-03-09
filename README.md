@@ -41,3 +41,5 @@
 
 * График прогназируемой функции
 ![extrapolation](images/extrapolation.png)
+
+

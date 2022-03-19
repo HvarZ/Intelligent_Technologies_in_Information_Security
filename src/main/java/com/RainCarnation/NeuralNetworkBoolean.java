@@ -55,7 +55,13 @@ public abstract class NeuralNetworkBoolean extends NeuralNetwork<Boolean[], Bool
             for (Boolean value : resultVector) {
                 resultWriter.write(value ? "1" : "0");
             }
-            resultWriter.write("      Number of error: " + errorCount + "\n");
+            resultWriter.write("      Number of error: " + errorCount);
+            resultWriter.write("      Weights: (");
+            for (int i = 0; i < weights.length - 1; ++i) {
+                resultWriter.write(weights[i] + " ");
+            }
+            resultWriter.write(weights[weights.length - 1] + ")\n");
+
             numberErrors.add(errorCount);
         } while (errorCount != 0);
     }

@@ -4,6 +4,7 @@ import com.RainCarnation.NeuralNetworkBooleanThreshold;
 
 import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.IOException;
 
 public class Lab_1 {
     public static void fillStandardMatrix(Boolean[][] matrix) {
@@ -60,8 +61,9 @@ public class Lab_1 {
 
         fillStandardMatrix(matrix);
 
+        FileOutputStream out = null;
         try {
-            FileOutputStream out = new FileOutputStream("results/lab_1.txt", true);
+            out = new FileOutputStream("results/lab_1.txt", true);
             new FileWriter("results/lab_1.txt", false).close();
 
 
@@ -81,6 +83,13 @@ public class Lab_1 {
             testingNetwork(network_4, matrixPart, resultPart, "\n\n\n################   Logistic activation function (part data)   ################");
         } catch (Exception e) {
             System.err.println(e.getMessage());
+
+        } finally {
+            try {
+                out.close();
+            } catch (IOException | NullPointerException e) {
+                System.err.println("Invalid closing");
+            }
         }
     }
 }

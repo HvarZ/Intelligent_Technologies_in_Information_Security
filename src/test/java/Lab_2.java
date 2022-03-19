@@ -2,6 +2,7 @@ import com.RainCarnation.NeuralNetworkExtrapolation;
 
 import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.IOException;
 
 public class Lab_2 {
     private static Float[] generateNormalDistribution(float a, float b, int number) {
@@ -33,8 +34,9 @@ public class Lab_2 {
         Float[] discreteNumber_2 = generateNormalDistribution(3f, 4f, 20);
         Float[] discreteValues_2 = generateDiscreteValues(discreteNumber_2);
 
+        FileOutputStream out = null;
         try {
-            FileOutputStream out = new FileOutputStream("results/lab_2.txt", true);
+            out = new FileOutputStream("results/lab_2.txt", true);
             new FileWriter("results/lab_2.txt", false).close();
             NeuralNetworkExtrapolation network = new NeuralNetworkExtrapolation(0.1f, 8, 0.0008f, out);
             network.fit(discreteNumbers, discreteValues);
@@ -44,6 +46,12 @@ public class Lab_2 {
             network.showExtrapolation(4f);
         } catch (Exception exception) {
             System.err.println(exception.getMessage());
+        } finally {
+            try {
+                out.close();
+            } catch (IOException | NullPointerException e) {
+                System.err.println("Invalid closing");
+            }
         }
     }
 }

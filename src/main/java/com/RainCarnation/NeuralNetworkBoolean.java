@@ -10,7 +10,7 @@ import java.util.List;
 import com.github.sh0nk.matplotlib4j.Plot;
 
 public abstract class NeuralNetworkBoolean extends NeuralNetwork<Boolean[], Boolean> {
-    protected float trainingNorm;
+    protected double trainingNorm;
 
     private Boolean[] resultVector;
     private List<Integer> numberErrors;
@@ -25,13 +25,13 @@ public abstract class NeuralNetworkBoolean extends NeuralNetwork<Boolean[], Bool
             throw new NeuralException("Invalid input data");
         }
 
-        weights = new float[matrix[0].length + 1];
+        weights = new double[matrix[0].length + 1];
         resultVector = new Boolean[result.length];
         numberErrors = new ArrayList<>();
 
 
         int errorCount, era = 0, fNetwork;
-        float delta, net;
+        double delta, net;
 
         do {
             era++;
@@ -85,15 +85,15 @@ public abstract class NeuralNetworkBoolean extends NeuralNetwork<Boolean[], Bool
     }
 
 
-    protected float net(Boolean[] variables) {
-        float result = weights[0];
+    protected double net(Boolean[] variables) {
+        double result = weights[0];
         for (int i = 1; i < weights.length; ++i) {
             result += (variables[i - 1] ? 1 : 0) * weights[i];
         }
         return result;
     }
 
-    protected void construct(float trainingNorm_, OutputStream out) {
+    protected void construct(double trainingNorm_, OutputStream out) {
         trainingNorm = trainingNorm_;
         weights = null;
 
@@ -101,7 +101,7 @@ public abstract class NeuralNetworkBoolean extends NeuralNetwork<Boolean[], Bool
         resultVector = null;
     }
 
-    protected abstract int fNet(float net);
+    protected abstract int fNet(double net);
 
-    protected abstract float getCorrectionWeight(boolean variable, float d, float net);
+    protected abstract double getCorrectionWeight(boolean variable, double d, double net);
 }

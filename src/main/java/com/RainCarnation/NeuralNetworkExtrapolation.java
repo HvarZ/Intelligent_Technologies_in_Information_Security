@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.Arrays;
 
 
-public class NeuralNetworkExtrapolation extends NeuralNetwork<Double, Double> {
+public class NeuralNetworkExtrapolation extends NeuralNetwork<Double[], Double[], Double, Double> {
     private double trainingNorm;
     private int lengthWindow;
     private double accuracy;

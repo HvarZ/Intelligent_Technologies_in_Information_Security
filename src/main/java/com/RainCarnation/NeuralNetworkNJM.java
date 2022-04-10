@@ -11,7 +11,7 @@ import java.util.List;
 import static java.lang.Math.*;
 
 public class NeuralNetworkNJM extends NeuralNetwork<Double[][], Double[], Double[], Double[]> {
-    double trainingNorm;
+    private double trainingNorm;
     private int inputs;
     private int numberHiddenNeurons;
     private int numberOutputNeurons;
@@ -139,7 +139,6 @@ public class NeuralNetworkNJM extends NeuralNetwork<Double[][], Double[], Double
 
         Double[] outsOut = new Double[numberOutputNeurons];
 
-        // 2 layer
         for (int i = 1; i < numberOutputNeurons + 1; ++i) {
             for (int j = 0; j < numberHiddenNeurons; ++j) {
                 net += outsHidden[j] * weights[j * i + ((inputs + 1) * numberHiddenNeurons)];

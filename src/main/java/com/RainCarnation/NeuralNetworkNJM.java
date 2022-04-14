@@ -58,7 +58,7 @@ public class NeuralNetworkNJM extends NeuralNetwork<Double[][], Double[], Double
                 numberEra++;
                 // 1 layer
                 for (int i = 1; i < numberHiddenNeurons + 1; ++i) {
-                    for (int j = 0; j < inputs + 1; ++j) {
+                    for (int j = 0; j < inputs; ++j) {
                         net += doubles[j * i] * weights[j * i];
                     }
                     outsHidden[i - 1] = fNet(net);
@@ -139,7 +139,7 @@ public class NeuralNetworkNJM extends NeuralNetwork<Double[][], Double[], Double
         double net = 0;
         double[] outsHidden = new double[numberHiddenNeurons];
         for (int i = 1; i < numberHiddenNeurons + 1; ++i) {
-            for (int j = 0; j < inputs + 1; ++j) {
+            for (int j = 0; j < inputs; ++j) {
                 net += input[j * i] * weights[j * i];
             }
             outsHidden[i - 1] = fNet(net);

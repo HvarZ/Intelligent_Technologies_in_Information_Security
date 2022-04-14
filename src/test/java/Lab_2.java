@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Lab_2 {
+    @FunctionalInterface
     public interface Function {
         double result(double i);
     }

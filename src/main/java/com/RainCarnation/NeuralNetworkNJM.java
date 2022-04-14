@@ -67,11 +67,15 @@ public class NeuralNetworkNJM extends NeuralNetwork<Double[][], Double[], Double
                 double[] outsOut = new double[numberOutputNeurons];
 
                 // 2 layer
-                for (int i = 1; i < numberOutputNeurons + 1; ++i) {
-                    for (int j = 0; j < numberHiddenNeurons; ++j) {
-                        net += outsHidden[j] * weights[j * i + ((inputs + 1) * numberHiddenNeurons)];
+                for (int i = 0; i < numberOutputNeurons; ++i) {
+                    for (int j = 0; j < numberHiddenNeurons + 1; ++j) {
+                        if (j == 0) {
+                            net += weights[(i * (numberOutputNeurons - 1)) + j + ((inputs + 1) * numberHiddenNeurons)];
+                        } else {
+                            net += outsHidden[j - 1] * weights[(i * (numberOutputNeurons - 1)) + j + ((inputs + 1) * numberHiddenNeurons)];
+                        }
                     }
-                    outsOut[i - 1] = fNet(net);
+                    outsOut[i] = fNet(net);
                     net = 0;
                 }
 
@@ -101,8 +105,12 @@ public class NeuralNetworkNJM extends NeuralNetwork<Double[][], Double[], Double
                 }
 
                 for (int i = 0; i < numberOutputNeurons; ++i) {
-                    for (int j = 0; j < numberHiddenNeurons; ++j) {
-                        weights[(i * numberOutputNeurons) + ((inputs + 1) * numberHiddenNeurons) + j] += trainingNorm * outsHidden[j] * deltaOut[i];
+                    for (int j = 0; j < numberHiddenNeurons + 1; ++j) {
+                        if (j == 0) {
+                            weights[(i * (numberOutputNeurons - 1)) + j + ((inputs + 1) * numberHiddenNeurons)] += trainingNorm * deltaOut[i];
+                        } else {
+                            weights[(i * (numberOutputNeurons - 1)) + j + ((inputs + 1) * numberHiddenNeurons)] += trainingNorm * outsHidden[j - 1] * deltaOut[i];
+                        }
                     }
                 }
 
@@ -121,7 +129,7 @@ public class NeuralNetworkNJM extends NeuralNetwork<Double[][], Double[], Double
 
                 resultWriter.write(weights[weights.length - 1] + ")");
                 resultWriter.write("      Root-mean-square error: " + epsilon + "\n");
-            } while (epsilon > 0.000001);
+            } while (epsilon > 0.001);
         }
     }
 
@@ -139,13 +147,18 @@ public class NeuralNetworkNJM extends NeuralNetwork<Double[][], Double[], Double
 
         Double[] outsOut = new Double[numberOutputNeurons];
 
-        for (int i = 1; i < numberOutputNeurons + 1; ++i) {
-            for (int j = 0; j < numberHiddenNeurons; ++j) {
-                net += outsHidden[j] * weights[j * i + ((inputs + 1) * numberHiddenNeurons)];
+        for (int i = 0; i < numberOutputNeurons; ++i) {
+            for (int j = 0; j < numberHiddenNeurons + 1; ++j) {
+                if (j == 0) {
+                    net += weights[(i * (numberOutputNeurons - 1)) + j + ((inputs + 1) * numberHiddenNeurons)];
+                } else {
+                    net += outsHidden[j - 1] * weights[(i * (numberOutputNeurons - 1)) + j + ((inputs + 1) * numberHiddenNeurons)];
+                }
             }
-            outsOut[i - 1] = fNet(net);
+            outsOut[i] = fNet(net);
             net = 0;
         }
+
         return outsOut;
     }
 

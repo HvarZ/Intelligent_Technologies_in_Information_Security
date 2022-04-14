@@ -5,6 +5,7 @@ import com.github.sh0nk.matplotlib4j.Plot;
 import java.io.BufferedWriter;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,9 +71,9 @@ public class NeuralNetworkNJM extends NeuralNetwork<Double[][], Double[], Double
                 for (int i = 0; i < numberOutputNeurons; ++i) {
                     for (int j = 0; j < numberHiddenNeurons + 1; ++j) {
                         if (j == 0) {
-                            net += weights[(i * (numberOutputNeurons - 1)) + j + ((inputs + 1) * numberHiddenNeurons)];
+                            net += weights[(i * (numberHiddenNeurons + 1)) + j + ((inputs + 1) * numberHiddenNeurons)];
                         } else {
-                            net += outsHidden[j - 1] * weights[(i * (numberOutputNeurons - 1)) + j + ((inputs + 1) * numberHiddenNeurons)];
+                            net += outsHidden[j - 1] * weights[(i * (numberHiddenNeurons + 1)) + j + ((inputs + 1) * numberHiddenNeurons)];
                         }
                     }
                     outsOut[i] = fNet(net);
@@ -107,9 +108,9 @@ public class NeuralNetworkNJM extends NeuralNetwork<Double[][], Double[], Double
                 for (int i = 0; i < numberOutputNeurons; ++i) {
                     for (int j = 0; j < numberHiddenNeurons + 1; ++j) {
                         if (j == 0) {
-                            weights[(i * (numberOutputNeurons - 1)) + j + ((inputs + 1) * numberHiddenNeurons)] += trainingNorm * deltaOut[i];
+                            weights[(i * (numberHiddenNeurons + 1)) + j + ((inputs + 1) * numberHiddenNeurons)] += trainingNorm * deltaOut[i];
                         } else {
-                            weights[(i * (numberOutputNeurons - 1)) + j + ((inputs + 1) * numberHiddenNeurons)] += trainingNorm * outsHidden[j - 1] * deltaOut[i];
+                            weights[(i * (numberHiddenNeurons + 1)) + j + ((inputs + 1) * numberHiddenNeurons)] += trainingNorm * outsHidden[j - 1] * deltaOut[i];
                         }
                     }
                 }
@@ -121,14 +122,14 @@ public class NeuralNetworkNJM extends NeuralNetwork<Double[][], Double[], Double
 
                 epsilon = sqrt(epsilon);
                 errors.add(epsilon);
-                resultWriter.write("Era #" + numberEra + "      " + "Weights: (");
+                resultWriter.write("|Era #" + numberEra + "   \t"  + "\t|Weights: (");
 
                 for (int i = 0; i < weights.length - 1; ++i) {
-                    resultWriter.write(weights[i] + ", ");
+                    resultWriter.write( new DecimalFormat("#0.0000").format(weights[i]).replace(',', '.') + ", ");
                 }
 
-                resultWriter.write(weights[weights.length - 1] + ")");
-                resultWriter.write("      Root-mean-square error: " + epsilon + "\n");
+                resultWriter.write(new DecimalFormat("#0.0000").format(weights[weights.length - 1]).replace(',', '.') + ")" + "\t|");
+                resultWriter.write("RMS error: " + new DecimalFormat("#0.00000").format(epsilon).replace(',', '.') + "\t|\n");
             } while (epsilon > 0.001);
         }
     }
@@ -150,9 +151,9 @@ public class NeuralNetworkNJM extends NeuralNetwork<Double[][], Double[], Double
         for (int i = 0; i < numberOutputNeurons; ++i) {
             for (int j = 0; j < numberHiddenNeurons + 1; ++j) {
                 if (j == 0) {
-                    net += weights[(i * (numberOutputNeurons - 1)) + j + ((inputs + 1) * numberHiddenNeurons)];
+                    net += weights[(i * (numberHiddenNeurons + 1)) + j + ((inputs + 1) * numberHiddenNeurons)];
                 } else {
-                    net += outsHidden[j - 1] * weights[(i * (numberOutputNeurons - 1)) + j + ((inputs + 1) * numberHiddenNeurons)];
+                    net += outsHidden[j - 1] * weights[(i * (numberHiddenNeurons + 1)) + j + ((inputs + 1) * numberHiddenNeurons)];
                 }
             }
             outsOut[i] = fNet(net);

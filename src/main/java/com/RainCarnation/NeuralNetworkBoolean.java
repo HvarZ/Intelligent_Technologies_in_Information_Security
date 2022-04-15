@@ -104,4 +104,28 @@ public abstract class NeuralNetworkBoolean extends NeuralNetwork<Boolean[][], Bo
     protected abstract int fNet(double net);
 
     protected abstract double getCorrectionWeight(boolean variable, double d, double net);
+
+    public static Boolean[][] getStandardMatrix(int numberVariables) {
+        int levelCounter = 0;
+        int levelController = (int)Math.pow(2, numberVariables - 1);
+        final int maxVectors = levelController * 2;
+        Boolean[][] result = new Boolean[maxVectors][numberVariables];
+        boolean setter = false;
+
+        for (int i = 0; i < numberVariables; ++i) {
+            for (int j = 0; j < maxVectors; ++j) {
+                if (levelController == levelCounter) {
+                    setter ^= true;
+                    levelCounter = 0;
+                }
+                result[j][i] = setter;
+                levelCounter++;
+            }
+            levelController >>= 1;
+            levelCounter = 0;
+            setter = false;
+        }
+
+        return result;
+    }
 }

@@ -48,7 +48,7 @@ public class Lab_1 {
         Boolean[] result = {false, true, false, true,
                             false, true, true, true,
                             false, true, true, true,
-                            false, true, true, true,};
+                            false, true, true, true};
 
         Boolean[][] matrixPart = {{false, false, false, true},
                                   {false, false, true, false},

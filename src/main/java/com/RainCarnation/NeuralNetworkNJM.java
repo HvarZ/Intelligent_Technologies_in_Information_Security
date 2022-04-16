@@ -16,7 +16,7 @@ public class NeuralNetworkNJM extends NeuralNetwork<Double[][], Double[], Double
     private int inputs;
     private int numberHiddenNeurons;
     private int numberOutputNeurons;
-    private static final String regex = "^[0-9][0-9]*-[0-9][0-9]*-[0-9][0-9]*$";
+    private static final String regex = "^\\d+-\\d+-\\d+$";
     private final List<Double> errors = new ArrayList<>();
 
     private void construct(double trainingNorm_, String architecture, OutputStream out) throws NeuralException {

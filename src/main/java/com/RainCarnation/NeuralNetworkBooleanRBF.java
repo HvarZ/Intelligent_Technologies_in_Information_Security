@@ -1,22 +1,10 @@
 package com.RainCarnation;
 
-import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 
-public final class NeuralNetworkBooleanRBF extends NeuralNetworkBoolean {
-    Boolean[] resultBooleanFunction;
-
-    public NeuralNetworkBooleanRBF(double trainingNorm_, Boolean[] result, OutputStream out) throws NeuralException {
-        if (trainingNorm_ > 1 || trainingNorm_ < 0) {
-            throw new NeuralException("Invalid training coefficient");
-        }
-        resultBooleanFunction = result;
-        construct(trainingNorm_, out);
-    }
-
-    public NeuralNetworkBooleanRBF(double trainingNorm, Boolean[] result) throws NeuralException {
-        this(trainingNorm, result, System.out);
-    }
+public abstract class NeuralNetworkBooleanRBF extends NeuralNetworkBoolean {
+    protected Boolean[] resultBooleanFunction;
 
     @Override
     public void fit(Boolean[][] matrix, Boolean[] result) throws Exception {
@@ -30,12 +18,15 @@ public final class NeuralNetworkBooleanRBF extends NeuralNetworkBoolean {
 
         final Boolean[][] standardMatrix = getStandardMatrix(matrix[0].length);
         final Boolean[][] C = getMinResultFunction(standardMatrix, resultBooleanFunction);
+        resultVector = new Boolean[standardMatrix.length];
+        numberErrors = new ArrayList<>();
+
         double[] X = new double[C.length];
         int fNet, fNetFull;
 
 
         weights = new double[C.length + 1];
-        int sumError, delta;
+        int sumError, delta, era = 0;
 
         do {
             sumError = 0;
@@ -52,11 +43,27 @@ public final class NeuralNetworkBooleanRBF extends NeuralNetworkBoolean {
 
             for (int j = 0; j < standardMatrix.length; ++j) {
                 fNetFull = directPassage(standardMatrix[j], C, X) ? 1 : 0;
+                resultVector[j] = fNetFull == 1;
                 sumError += Math.abs((resultBooleanFunction[j] ? 1 : 0) - fNetFull);
                 Arrays.fill(X, 0);
             }
 
-            System.out.println(sumError);
+            resultWriter.write("Era #" + (era++) + "\t(");
+            for (int i = 0; i < weights.length - 1; ++i) {
+                resultWriter.write(weights[i] + ", ");
+            }
+
+            resultWriter.write(weights[weights.length - 1] + ")\t Result vector: (");
+
+
+            for (int i = 0; i < resultVector.length - 1; ++i) {
+                resultWriter.write(resultVector[i] ? "1" : "0");
+            }
+            resultWriter.write(resultVector[resultVector.length - 1] ? "1)\t" : "0)\t");
+
+            resultWriter.write("Sum error:" + sumError + "\n");
+            numberErrors.add(sumError);
+
         } while (sumError != 0);
     }
 
@@ -72,10 +79,7 @@ public final class NeuralNetworkBooleanRBF extends NeuralNetworkBoolean {
     }
 
     @Override
-    protected int fNet(double net) {
-        // return (int) Math.round(0.5 + 0.5 * Math.tanh(net));
-        return net >= 0 ? 1 : 0;
-    }
+    protected abstract int fNet(double net);
 
     @Override
     protected double getCorrectionWeight(boolean variable, double d, double net) {

@@ -2,7 +2,7 @@ package com.RainCarnation;
 
 import java.io.OutputStream;
 
-public class NeuralNetworkBooleanLogistic extends NeuralNetworkBoolean {
+public final class NeuralNetworkBooleanLogistic extends NeuralNetworkBoolean {
     public NeuralNetworkBooleanLogistic(double trainingNorm_, OutputStream out) throws NeuralException {
         if (trainingNorm_ > 1 || trainingNorm_ < 0) {
             throw new NeuralException("Invalid training coefficient");

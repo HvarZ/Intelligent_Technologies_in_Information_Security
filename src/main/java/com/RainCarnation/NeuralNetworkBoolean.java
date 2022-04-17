@@ -11,9 +11,9 @@ import com.github.sh0nk.matplotlib4j.Plot;
 
 public abstract class NeuralNetworkBoolean extends NeuralNetwork<Boolean[][], Boolean[], Boolean[], Boolean> {
     protected double trainingNorm;
+    protected List<Integer> numberErrors;
 
-    private Boolean[] resultVector;
-    private List<Integer> numberErrors;
+    protected Boolean[] resultVector;
 
     @Override
     public void fit(Boolean[][] matrix, Boolean[] result) throws Exception {

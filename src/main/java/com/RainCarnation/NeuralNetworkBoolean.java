@@ -1,9 +1,11 @@
 package com.RainCarnation;
 
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,9 +36,6 @@ public abstract class NeuralNetworkBoolean extends NeuralNetwork<Boolean[][], Bo
         double delta, net;
 
         do {
-            era++;
-            resultWriter.write("Era #" + era + "      ");
-
             errorCount = 0;
             for (int i = 0; i < matrix.length; ++i) {
                 net = net(matrix[i]);
@@ -51,17 +50,8 @@ public abstract class NeuralNetworkBoolean extends NeuralNetwork<Boolean[][], Bo
                     }
                 }
             }
-            resultWriter.write("Result vector: ");
-            for (Boolean value : resultVector) {
-                resultWriter.write(value ? "1" : "0");
-            }
-            resultWriter.write("      Number of error: " + errorCount);
-            resultWriter.write("      Weights: (");
-            for (int i = 0; i < weights.length - 1; ++i) {
-                resultWriter.write(weights[i] + " ");
-            }
-            resultWriter.write(weights[weights.length - 1] + ")\n");
-
+            era++;
+            safePrint(era, errorCount);
             numberErrors.add(errorCount);
         } while (errorCount != 0);
     }
@@ -107,7 +97,7 @@ public abstract class NeuralNetworkBoolean extends NeuralNetwork<Boolean[][], Bo
 
     public static Boolean[][] getStandardMatrix(int numberVariables) {
         int levelCounter = 0;
-        int levelController = (int)Math.pow(2, numberVariables - 1);
+        int levelController = (int) Math.pow(2, numberVariables - 1);
         final int maxVectors = levelController * 2;
         Boolean[][] result = new Boolean[maxVectors][numberVariables];
         boolean setter = false;
@@ -128,4 +118,22 @@ public abstract class NeuralNetworkBoolean extends NeuralNetwork<Boolean[][], Bo
 
         return result;
     }
+
+    protected void safePrint(final int era, final int errorCount) throws IOException {
+        resultWriter.write("Era #" + era + "\t(");
+        for (int i = 0; i < weights.length - 1; ++i) {
+            resultWriter.write(new DecimalFormat("#0.000").format(weights[i]).replace(',', '.') + ", ");
+        }
+
+        resultWriter.write(new DecimalFormat("#0.000").format(weights[weights.length - 1]).replace(',', '.') + ")\t Result vector: (");
+
+
+        for (int i = 0; i < resultVector.length - 1; ++i) {
+            resultWriter.write(resultVector[i] ? "1" : "0");
+        }
+        resultWriter.write(resultVector[resultVector.length - 1] ? "1)\t" : "0)\t");
+
+        resultWriter.write("Sum error:" + errorCount + "\n");
+    }
+
 }

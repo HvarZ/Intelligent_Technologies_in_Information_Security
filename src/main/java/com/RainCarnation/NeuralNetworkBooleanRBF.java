@@ -1,6 +1,5 @@
 package com.RainCarnation;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -48,26 +47,12 @@ public abstract class NeuralNetworkBooleanRBF extends NeuralNetworkBoolean {
                 sumError += Math.abs((resultBooleanFunction[j] ? 1 : 0) - fNetFull);
                 Arrays.fill(X, 0);
             }
-
-            resultWriter.write("Era #" + (era++) + "\t(");
-            for (int i = 0; i < weights.length - 1; ++i) {
-                resultWriter.write(new DecimalFormat("#0.000").format(weights[i]).replace(',', '.') + ", ");
-            }
-
-            resultWriter.write(new DecimalFormat("#0.000").format(weights[weights.length - 1]).replace(',', '.') + ")\t Result vector: (");
-
-
-            for (int i = 0; i < resultVector.length - 1; ++i) {
-                resultWriter.write(resultVector[i] ? "1" : "0");
-            }
-            resultWriter.write(resultVector[resultVector.length - 1] ? "1)\t" : "0)\t");
-
-            resultWriter.write("Sum error:" + sumError + "\n");
+            era++;
+            safePrint(era, sumError);
             numberErrors.add(sumError);
 
         } while (sumError != 0);
     }
-
 
 
     @Override
@@ -109,6 +94,7 @@ public abstract class NeuralNetworkBooleanRBF extends NeuralNetworkBoolean {
         int units = 0;
         int counterAdd = 0;
         boolean moreUnits;
+
         for (Boolean result : results) {
             if (result) {
                 units++;

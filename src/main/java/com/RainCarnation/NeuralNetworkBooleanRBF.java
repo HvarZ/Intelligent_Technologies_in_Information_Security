@@ -1,5 +1,6 @@
 package com.RainCarnation;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -50,10 +51,10 @@ public abstract class NeuralNetworkBooleanRBF extends NeuralNetworkBoolean {
 
             resultWriter.write("Era #" + (era++) + "\t(");
             for (int i = 0; i < weights.length - 1; ++i) {
-                resultWriter.write(weights[i] + ", ");
+                resultWriter.write(new DecimalFormat("#0.000").format(weights[i]).replace(',', '.') + ", ");
             }
 
-            resultWriter.write(weights[weights.length - 1] + ")\t Result vector: (");
+            resultWriter.write(new DecimalFormat("#0.000").format(weights[weights.length - 1]).replace(',', '.') + ")\t Result vector: (");
 
 
             for (int i = 0; i < resultVector.length - 1; ++i) {

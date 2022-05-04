@@ -67,12 +67,6 @@ public final class NeuralNetworkExtrapolation extends NeuralNetwork<Double[], Do
         weights = new double[lengthWindow + 1];
         double sum = 0;
 
-        for (var res : result) {
-            sum += res;
-        }
-
-        //weights[0] = sum / result.length;
-
         double net, epsilon, delta;
         int era = 0;
 

@@ -136,4 +136,36 @@ public abstract class NeuralNetworkBoolean extends NeuralNetwork<Boolean[][], Bo
         resultWriter.write("Sum error:" + errorCount + "\n");
     }
 
+    static public Boolean[] convertStringVectorToArray(String vector) throws NeuralException {
+        if (!vector.matches("^[0|1]*$")) {
+            throw new NeuralException("InvalidVector");
+        }
+        Boolean[] result = new Boolean[vector.length()];
+
+        for (int i = 0; i < result.length; ++i) {
+            result[i] = vector.charAt(i) == '1';
+        }
+
+        return result;
+    }
+
+    static public Boolean[][] convertStringVectorsToMatrix(String vector) throws NeuralException {
+        int index = vector.indexOf(','), numberTerminators = 1;
+        if (index == - 1) {
+            index = vector.length();
+        }
+        for (char ch : vector.toCharArray()) {
+            if (ch == ',') {
+                numberTerminators++;
+            }
+        }
+        String[] vectors = vector.split(",");
+        Boolean[][] result = new Boolean[numberTerminators][index];
+        for (int i = 0; i < result.length; ++i) {
+            result[i] = convertStringVectorToArray(vectors[i]);
+        }
+
+        return result;
+    }
+
 }

@@ -18,7 +18,8 @@ public abstract class NeuralNetwork<InputType, ResultType, FinalInputType, Final
 
     public abstract void showFitGraphics() throws Exception;
 
-    public void showFit() throws IOException {
+    public void showFit(String report) throws IOException {
+        resultWriter.write(report);
         resultWriter.flush();
     }
 

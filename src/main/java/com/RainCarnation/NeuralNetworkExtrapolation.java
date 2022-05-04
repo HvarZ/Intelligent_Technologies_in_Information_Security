@@ -12,6 +12,10 @@ import java.util.Arrays;
 
 
 public final class NeuralNetworkExtrapolation extends NeuralNetwork<Double[], Double[], Double, Double> {
+    @FunctionalInterface
+    public interface Function {
+        double result(double i);
+    }
     private double trainingNorm;
     private int lengthWindow;
     private double accuracy;
@@ -173,5 +177,16 @@ public final class NeuralNetworkExtrapolation extends NeuralNetwork<Double[], Do
         double turn = lastWindowX[lastWindowX.length - 1] - lastWindowX[lastWindowX.length - 2];
 
         return (int)((input - lastWindowX[lastWindowX.length - 1]) / turn);
+    }
+
+    public static Double[][] generateDiscreteFunction(double a, double b, int number, Function function) {
+        Double[][] result = new Double[2][number];
+        double turn = (b - a) / (number + 1);
+
+        for (int i = 1; i < number + 1; ++i) {
+            result[0][i - 1] = a + i * turn;
+            result[1][i - 1] = function.result(a + i * turn);
+        }
+        return result;
     }
 }

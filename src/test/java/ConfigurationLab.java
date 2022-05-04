@@ -11,7 +11,7 @@ import java.io.FileOutputStream;
 @Configuration
 @PropertySource("classpath:Labs.properties")
 public class ConfigurationLab {
-    // FirstLab
+    // First Lab
     @Value("${numberVariables}")
     int numberVariables;
     @Value("${filenameResult}")
@@ -116,5 +116,47 @@ public class ConfigurationLab {
 
         return network;
     }
+
+
+    // Third Lab
+
+    @Value("${filename_3}")
+    private String filename_3;
+
+    @Value("${trainingNorm_3}")
+    private Double trainingNorm_3;
+
+    @Value("${fullResultBoolean_3}")
+    private String resultFull_3;
+
+    @Value("${partMatrixBoolean_3}")
+    private String matrixPart_3;
+
+    @Value("${partResultBoolean_3}")
+    private String resultPart_3;
+
+
+    @Bean
+    @Scope("prototype")
+    public NeuralNetworkBoolean extrapolationThreshold() throws Exception {
+        out = new FileOutputStream(filename_3, true);
+        NeuralNetworkBoolean network =
+                new NeuralNetworkBooleanRBFT(trainingNorm_3, NeuralNetworkBoolean.convertStringVectorToArray(resultFull_3), out);
+        network.fit(NeuralNetworkBoolean.convertStringVectorsToMatrix(matrixPart_3), NeuralNetworkBoolean.convertStringVectorToArray(resultPart_3));
+
+        return network;
+    }
+
+    @Bean
+    @Scope("prototype")
+    public NeuralNetworkBoolean extrapolationLogistic() throws Exception {
+        out = new FileOutputStream(filename_3, true);
+        NeuralNetworkBoolean network =
+                new NeuralNetworkBooleanRBFL(trainingNorm_3, NeuralNetworkBoolean.convertStringVectorToArray(resultFull_3), out);
+        network.fit(NeuralNetworkBoolean.convertStringVectorsToMatrix(matrixPart_3), NeuralNetworkBoolean.convertStringVectorToArray(resultPart_3));
+
+        return network;
+    }
+
 
 }

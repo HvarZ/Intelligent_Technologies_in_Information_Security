@@ -1,29 +1,33 @@
-################   Threshold activation function   ################
-Result vector: 0101011101110111
 Era #1	(0.000, 0.000, 0.000, 0.600, 0.900)	 Result vector: (1010110111011011)	Sum error:10
 Era #2	(-0.300, 0.000, 0.300, 0.900, 0.900)	 Result vector: (1111010101111101)	Sum error:5
-Era #3	(-0.600, 0.000, 0.300, 0.600, 0.900)	 Result vector: (0111011101110111)	Sum error:1
-Era #4	(-0.600, 0.000, 0.600, 0.900, 0.900)	 Result vector: (0111010101111101)	Sum error:4
-Era #5	(-0.900, 0.000, 0.300, 0.900, 0.900)	 Result vector: (0111011101011111)	Sum error:3
-Era #6	(-0.900, 0.000, 0.600, 0.900, 0.900)	 Result vector: (0111010101110111)	Sum error:2
-Era #7	(-0.900, 0.300, 0.600, 0.900, 1.200)	 Result vector: (0111011100111101)	Sum error:4
-Era #8	(-1.200, 0.300, 0.300, 0.900, 1.200)	 Result vector: (0111011101011111)	Sum error:3
-Era #9	(-1.200, 0.300, 0.300, 0.900, 1.200)	 Result vector: (0101011101110111)	Sum error:0
+Era #3	(-0.600, 0.000, 0.000, 0.900, 0.900)	 Result vector: (0111011101011111)	Sum error:3
+Era #4	(-0.600, 0.000, 0.300, 0.900, 0.900)	 Result vector: (0111010101110111)	Sum error:2
+Era #5	(-0.900, 0.000, 0.000, 0.900, 0.900)	 Result vector: (0111011101011111)	Sum error:3
+Era #6	(-0.900, 0.000, 0.000, 0.900, 1.200)	 Result vector: (0111001101011111)	Sum error:4
+Era #7	(-0.900, 0.000, 0.300, 0.900, 1.200)	 Result vector: (0111010101110111)	Sum error:2
+Era #8	(-0.900, 0.000, 0.600, 0.900, 1.200)	 Result vector: (0111010101110111)	Sum error:2
+Era #9	(-0.900, 0.000, 0.900, 1.200, 1.200)	 Result vector: (0111010101111101)	Sum error:4
+Era #10	(-1.200, 0.000, 0.600, 1.200, 1.200)	 Result vector: (0111011101011111)	Sum error:3
+Era #11	(-1.200, 0.000, 0.900, 1.200, 1.200)	 Result vector: (0111010101110111)	Sum error:2
+Era #12	(-1.200, 0.300, 0.900, 1.200, 1.500)	 Result vector: (0111011100111101)	Sum error:4
+Era #13	(-1.500, 0.300, 0.600, 1.200, 1.500)	 Result vector: (0111011101011111)	Sum error:3
+Era #14	(-1.500, 0.300, 0.600, 1.200, 1.500)	 Result vector: (0101011101110111)	Sum error:0
+################   Threshold activation function   ################
 
 
 
-################   Threshold activation function (part data)   ################
-Result vector: 0101011101110111
+
+
 Era #1	(-0.300, -0.300, 0.000, 0.000, 0.000)	 Result vector: (11011)	Sum error:3
 Era #2	(0.000, -0.300, 0.000, 0.300, 0.300)	 Result vector: (01001)	Sum error:5
 Era #3	(-0.300, -0.600, 0.000, 0.300, 0.300)	 Result vector: (11011)	Sum error:3
 Era #4	(-0.300, -0.600, 0.000, 0.600, 0.300)	 Result vector: (11001)	Sum error:4
 Era #5	(-0.300, -0.600, 0.000, 0.900, 0.300)	 Result vector: (11001)	Sum error:4
-Era #6	(-0.300, -0.300, 0.000, 0.900, 0.300)	 Result vector: (11100)	Sum error:2
-Era #7	(-0.300, 0.000, 0.000, 0.900, 0.300)	 Result vector: (11100)	Sum error:2
-Era #8	(-0.600, 0.000, 0.000, 0.600, 0.300)	 Result vector: (11110)	Sum error:1
-Era #9	(-0.600, -0.300, 0.000, 0.600, 0.600)	 Result vector: (01011)	Sum error:4
-Era #10	(-0.600, -0.300, 0.000, 0.900, 0.600)	 Result vector: (11001)	Sum error:4
+Era #6	(-0.300, -0.600, 0.300, 0.900, 0.300)	 Result vector: (11010)	Sum error:2
+Era #7	(-0.300, -0.300, 0.300, 0.900, 0.300)	 Result vector: (11100)	Sum error:2
+Era #8	(-0.600, -0.300, 0.000, 0.900, 0.300)	 Result vector: (11101)	Sum error:3
+Era #9	(-0.300, -0.300, 0.300, 0.900, 0.600)	 Result vector: (01010)	Sum error:3
+Era #10	(-0.600, -0.300, 0.000, 0.900, 0.600)	 Result vector: (11101)	Sum error:3
 Era #11	(-0.600, -0.300, 0.300, 0.900, 0.600)	 Result vector: (11010)	Sum error:2
 Era #12	(-0.600, 0.000, 0.300, 0.900, 0.600)	 Result vector: (11100)	Sum error:2
 Era #13	(-0.900, 0.000, 0.000, 0.900, 0.600)	 Result vector: (11101)	Sum error:3
@@ -31,17 +35,24 @@ Era #14	(-0.600, 0.000, 0.300, 0.900, 0.900)	 Result vector: (01010)	Sum error:3
 Era #15	(-0.900, 0.000, 0.000, 0.900, 0.900)	 Result vector: (11101)	Sum error:3
 Era #16	(-0.900, 0.000, 0.300, 0.900, 0.900)	 Result vector: (11010)	Sum error:2
 Era #17	(-0.900, 0.000, 0.600, 0.900, 0.900)	 Result vector: (11010)	Sum error:2
-Era #18	(-1.200, 0.000, 0.300, 0.900, 0.900)	 Result vector: (11101)	Sum error:3
-Era #19	(-0.900, 0.000, 0.600, 0.900, 1.200)	 Result vector: (01010)	Sum error:3
-Era #20	(-1.200, 0.000, 0.300, 0.900, 1.200)	 Result vector: (11101)	Sum error:3
-Era #21	(-0.900, 0.300, 0.300, 1.200, 1.200)	 Result vector: (10100)	Sum error:1
-Era #22	(-1.200, 0.300, 0.300, 0.900, 1.200)	 Result vector: (11110)	Sum error:1
-Era #23	(-1.200, 0.300, 0.300, 0.900, 1.200)	 Result vector: (10110)	Sum error:0
+Era #18	(-1.200, -0.300, 0.600, 0.900, 0.900)	 Result vector: (11011)	Sum error:3
+Era #19	(-0.900, -0.300, 0.600, 1.200, 1.200)	 Result vector: (01001)	Sum error:5
+Era #20	(-0.900, 0.000, 0.600, 1.200, 1.200)	 Result vector: (11100)	Sum error:2
+Era #21	(-1.200, 0.000, 0.300, 1.200, 1.200)	 Result vector: (11101)	Sum error:3
+Era #22	(-1.200, 0.000, 0.600, 1.200, 1.200)	 Result vector: (11010)	Sum error:2
+Era #23	(-1.200, 0.000, 0.900, 1.200, 1.200)	 Result vector: (11010)	Sum error:2
+Era #24	(-1.500, 0.000, 0.600, 1.200, 1.200)	 Result vector: (11101)	Sum error:3
+Era #25	(-1.200, 0.000, 0.900, 1.200, 1.500)	 Result vector: (01010)	Sum error:3
+Era #26	(-1.500, 0.000, 0.600, 1.200, 1.500)	 Result vector: (11101)	Sum error:3
+Era #27	(-1.200, 0.300, 0.600, 1.500, 1.500)	 Result vector: (10100)	Sum error:1
+Era #28	(-1.500, 0.300, 0.600, 1.200, 1.500)	 Result vector: (11110)	Sum error:1
+Era #29	(-1.500, 0.300, 0.600, 1.200, 1.500)	 Result vector: (10110)	Sum error:0
+################   Threshold activation function (part data)   ################
 
 
 
-################   Logistic activation function   ################
-Result vector: 0101011101110111
+
+
 Era #1	(0.013, -0.134, 0.013, 0.150, 0.297)	 Result vector: (1001010110111111)	Sum error:6
 Era #2	(-0.147, -0.133, 0.006, 0.286, 0.297)	 Result vector: (1111010101011111)	Sum error:5
 Era #3	(-0.147, -0.133, 0.153, 0.286, 0.297)	 Result vector: (0111010101110111)	Sum error:2
@@ -51,11 +62,12 @@ Era #6	(-0.294, -0.135, 0.301, 0.438, 0.444)	 Result vector: (0111010101110111)	
 Era #7	(-0.296, 0.010, 0.298, 0.438, 0.592)	 Result vector: (0111011100111101)	Sum error:4
 Era #8	(-0.442, 0.011, 0.152, 0.438, 0.592)	 Result vector: (0111011101011111)	Sum error:3
 Era #9	(-0.442, 0.011, 0.152, 0.438, 0.592)	 Result vector: (0101011101110111)	Sum error:0
+################   Logistic activation function   ################
 
 
 
-################   Logistic activation function (part data)   ################
-Result vector: 0101011101110111
+
+
 Era #1	(0.011, 0.024, 0.011, 0.137, 0.000)	 Result vector: (11001)	Sum error:4
 Era #2	(-0.133, -0.120, 0.014, 0.138, 0.000)	 Result vector: (11011)	Sum error:3
 Era #3	(-0.134, -0.270, 0.012, 0.139, 0.147)	 Result vector: (01011)	Sum error:4
@@ -75,3 +87,9 @@ Era #16	(-0.348, 0.020, 0.294, 0.365, 0.447)	 Result vector: (11010)	Sum error:2
 Era #17	(-0.507, 0.011, 0.146, 0.355, 0.447)	 Result vector: (11101)	Sum error:3
 Era #18	(-0.358, 0.011, 0.146, 0.355, 0.597)	 Result vector: (00110)	Sum error:1
 Era #19	(-0.358, 0.011, 0.146, 0.355, 0.597)	 Result vector: (10110)	Sum error:0
+################   Logistic activation function (part data)   ################
+
+
+
+
+

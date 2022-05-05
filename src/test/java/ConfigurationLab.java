@@ -158,5 +158,38 @@ public class ConfigurationLab {
         return network;
     }
 
+    @Value("${filename_4}")
+    private String filename_4;
 
+    @Value("${trainingNorm_4}")
+    private Double trainingNorm_4;
+
+    @Value("${architecture_4}")
+    private String architecture_4;
+
+    @Value("${test_data_1}")
+    private Double test_data_1;
+
+    @Value("${test_data_2}")
+    private Double test_data_2;
+
+    @Value("${test_data_3}")
+    private Double test_data_3;
+
+    @Value("${fit_data_1}")
+    private Double fit_data_1;
+
+    @Value("${fit_data_2}")
+    private Double fit_data_2;
+
+    @Bean
+    @Scope("prototype")
+    public NeuralNetworkNJM njm() throws Exception {
+        out = new FileOutputStream(filename_4, true);
+        NeuralNetworkNJM network = new NeuralNetworkNJM(trainingNorm_4, architecture_4, out);
+        Double[][] testData = new Double[][]{{test_data_1, test_data_2, test_data_3}};
+
+        network.fit(testData, new Double[]{fit_data_1, fit_data_2});
+        return network;
+    }
 }

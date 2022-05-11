@@ -12,8 +12,8 @@ public class Lab_3 {
     public static void main(String[] args) throws Exception {
         new FileWriter("results/lab_3.txt", false).close();
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ConfigurationLab.class);
-        testing(context, "extrapolationThreshold", "============= RBF Threshold =============\n");
-        testing(context, "extrapolationLogistic", "============= RBF Logistic =============\n");
+        testing(context, "RBFThreshold", "============= RBF Threshold =============\n");
+        testing(context, "RBFLogistic", "============= RBF Logistic =============\n");
         context.close();
 
     }

@@ -138,7 +138,7 @@ public class ConfigurationLab {
 
     @Bean
     @Scope("prototype")
-    public NeuralNetworkBoolean extrapolationThreshold() throws Exception {
+    public NeuralNetworkBoolean RBFThreshold() throws Exception {
         out = new FileOutputStream(filename_3, true);
         NeuralNetworkBoolean network =
                 new NeuralNetworkBooleanRBFT(trainingNorm_3, NeuralNetworkBoolean.convertStringVectorToArray(resultFull_3), out);
@@ -149,7 +149,7 @@ public class ConfigurationLab {
 
     @Bean
     @Scope("prototype")
-    public NeuralNetworkBoolean extrapolationLogistic() throws Exception {
+    public NeuralNetworkBoolean RBFLogistic() throws Exception {
         out = new FileOutputStream(filename_3, true);
         NeuralNetworkBoolean network =
                 new NeuralNetworkBooleanRBFL(trainingNorm_3, NeuralNetworkBoolean.convertStringVectorToArray(resultFull_3), out);

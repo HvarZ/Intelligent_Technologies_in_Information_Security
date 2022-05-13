@@ -12,6 +12,7 @@ import java.util.List;
 import static java.lang.Math.*;
 
 public final class NeuralNetworkNJM extends NeuralNetwork<Double[][], Double, Double[], Double[]> {
+    private double[] weights;
     private double trainingNorm;
     private int inputs;
     private int numberHiddenNeurons;

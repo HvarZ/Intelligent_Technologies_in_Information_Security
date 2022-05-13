@@ -8,7 +8,6 @@ import java.io.OutputStreamWriter;
 // T - type for input data (test or fit data)
 // R - type for result data
 public abstract class NeuralNetwork<InputType, ResultType, FinalInputType, FinalResultType> {
-    protected double[] weights;
     protected BufferedWriter resultWriter;
     protected String fitInfo;
 

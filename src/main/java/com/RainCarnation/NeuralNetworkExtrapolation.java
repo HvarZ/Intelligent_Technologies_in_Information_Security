@@ -16,6 +16,8 @@ public final class NeuralNetworkExtrapolation extends NeuralNetwork<Double[], Do
     public interface Function {
         double result(double i);
     }
+
+    private double[] weights;
     private double trainingNorm;
     private int lengthWindow;
     private double accuracy;

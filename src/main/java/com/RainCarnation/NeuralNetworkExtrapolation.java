@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.Arrays;
 
 
-public final class NeuralNetworkExtrapolation extends NeuralNetwork<Double[], Double[], Double, Double> {
+public final class NeuralNetworkExtrapolation extends NeuralNetwork<Double[], Double, Double, Double> {
     @FunctionalInterface
     public interface Function {
         double result(double i);
@@ -52,7 +52,7 @@ public final class NeuralNetworkExtrapolation extends NeuralNetwork<Double[], Do
     }
 
     @Override
-    public void fit(Double[] matrix, Double[] result) throws Exception {
+    public void fit(Double[] matrix, Double... result) throws Exception {
         if (matrix.length <= 0) {
             throw new NeuralException("Fit: Input data is clear");
         }

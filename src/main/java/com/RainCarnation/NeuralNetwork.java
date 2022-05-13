@@ -12,7 +12,7 @@ public abstract class NeuralNetwork<InputType, ResultType, FinalInputType, Final
     protected BufferedWriter resultWriter;
     protected String fitInfo;
 
-    public abstract void fit(InputType matrix, ResultType result) throws Exception;
+    public abstract void fit(InputType matrix, ResultType... result) throws Exception;
 
     public abstract FinalResultType getResult(FinalInputType input) throws NeuralException;
 

@@ -11,7 +11,7 @@ import java.util.List;
 
 import static java.lang.Math.*;
 
-public final class NeuralNetworkNJM extends NeuralNetwork<Double[][], Double[], Double[], Double[]> {
+public final class NeuralNetworkNJM extends NeuralNetwork<Double[][], Double, Double[], Double[]> {
     private double trainingNorm;
     private int inputs;
     private int numberHiddenNeurons;
@@ -43,7 +43,7 @@ public final class NeuralNetworkNJM extends NeuralNetwork<Double[][], Double[], 
     }
 
     @Override
-    public void fit(Double[][] input, Double[] result) throws Exception {
+    public void fit(Double[][] input, Double... result) throws Exception {
         if (input.length <= 0) {
             throw new NeuralException("Fit: Input data is clear");
         }
@@ -57,13 +57,7 @@ public final class NeuralNetworkNJM extends NeuralNetwork<Double[][], Double[], 
                 epsilon = 0;
                 numberEra++;
                 // 1 layer
-                for (int i = 1; i < numberHiddenNeurons + 1; ++i) {
-                    for (int j = 0; j < inputs; ++j) {
-                        net += doubles[j * i] * weights[j * i];
-                    }
-                    outsHidden[i - 1] = fNet(net);
-                    net = 0;
-                }
+                net = getNet(outsHidden, net, doubles);
 
                 double[] outsOut = new double[numberOutputNeurons];
 
@@ -134,17 +128,22 @@ public final class NeuralNetworkNJM extends NeuralNetwork<Double[][], Double[], 
         }
     }
 
-    @Override
-    public Double[] getResult(Double[] input) {
-        double net = 0;
-        double[] outsHidden = new double[numberHiddenNeurons];
+    private double getNet(double[] outsHidden, double net, Double[] doubles) {
         for (int i = 1; i < numberHiddenNeurons + 1; ++i) {
             for (int j = 0; j < inputs; ++j) {
-                net += input[j * i] * weights[j * i];
+                net += doubles[j * i] * weights[j * i];
             }
             outsHidden[i - 1] = fNet(net);
             net = 0;
         }
+        return net;
+    }
+
+    @Override
+    public Double[] getResult(Double[] input) {
+        double net = 0;
+        double[] outsHidden = new double[numberHiddenNeurons];
+        net = getNet(outsHidden, net, input);
 
         Double[] outsOut = new Double[numberOutputNeurons];
 

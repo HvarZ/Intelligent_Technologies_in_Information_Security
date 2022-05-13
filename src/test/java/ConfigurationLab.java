@@ -189,7 +189,7 @@ public class ConfigurationLab {
         NeuralNetworkNJM network = new NeuralNetworkNJM(trainingNorm_4, architecture_4, out);
         Double[][] testData = new Double[][]{{test_data_1, test_data_2, test_data_3}};
 
-        network.fit(testData, new Double[]{fit_data_1, fit_data_2});
+        network.fit(testData, fit_data_1, fit_data_2);
         return network;
     }
 }

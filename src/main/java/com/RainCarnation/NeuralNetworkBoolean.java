@@ -11,14 +11,14 @@ import java.util.List;
 
 import com.github.sh0nk.matplotlib4j.Plot;
 
-public abstract class NeuralNetworkBoolean extends NeuralNetwork<Boolean[][], Boolean[], Boolean[], Boolean> {
+public abstract class NeuralNetworkBoolean extends NeuralNetwork<Boolean[][], Boolean, Boolean[], Boolean> {
     protected double trainingNorm;
     protected List<Integer> numberErrors;
 
     protected Boolean[] resultVector;
 
     @Override
-    public void fit(Boolean[][] matrix, Boolean[] result) throws Exception {
+    public void fit(Boolean[][] matrix, Boolean... result) throws Exception {
         if (matrix.length <= 0 || matrix[0].length <= 0) {
             throw new NeuralException("Input data is clear");
         }

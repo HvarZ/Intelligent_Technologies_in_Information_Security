@@ -2,31 +2,41 @@ package com.RainCarnation;
 
 import com.RainCarnation.service.BinaryImage;
 
-public class NeuralNetworkHopfield extends NeuralNetwork<BinaryImage[], Integer, Integer[], Integer[]> {
+public class NeuralNetworkHopfield extends NeuralNetwork<BinaryImage[], Integer, BinaryImage, BinaryImage> {
     private int[][] weights;
-    @Override
-    public void fit(BinaryImage[] matrix, Integer... result) throws Exception {
+    private int width;
 
-        if (matrix.length <= 0) {
+    @Override
+    public void fit(BinaryImage[] images, Integer... result) throws Exception {
+        if (images.length <= 0) {
             throw new NeuralException("Input data is clear");
         }
+        width = images[0].getImage()[0].length;
 
-        int[][] vectorizedImages = new int[matrix.length][];
+        int[][] vectorizedImages = new int[images.length][];
 
-        for (int i = 0; i < matrix.length; ++i) {
-            vectorizedImages[i] = BinaryImage.vectorize(matrix[i].getImage());
+        for (int i = 0; i < images.length; ++i) {
+            vectorizedImages[i] = BinaryImage.vectorize(images[i].getImage());
         }
 
-        weights = new int[vectorizedImages[0].length][];
+        weights = new int[vectorizedImages[0].length][vectorizedImages[0].length];
 
-        for (int i = 0; i < matrix.length; ++i) {
+        for (int i = 0; i < images.length; ++i) {
             weights = sum(weights, multiple(vectorizedImages[i], vectorizedImages[i]));
         }
     }
 
     @Override
-    public Integer[] getResult(Integer[] input) throws NeuralException {
-        return null;
+    public BinaryImage getResult(BinaryImage image) throws NeuralException {
+        int changes = 1;
+
+        int[] vectorizedImage = BinaryImage.vectorize(image.getImage());
+
+        while (changes != 0) {
+            changes = epoch(vectorizedImage);
+        }
+        return new BinaryImage(vectorizedImage, width);
+
     }
 
     @Override
@@ -34,7 +44,7 @@ public class NeuralNetworkHopfield extends NeuralNetwork<BinaryImage[], Integer,
 
     }
 
-    public static int[][] multiple(int[] a, int[] b) {
+    private int[][] multiple(int[] a, int[] b) {
         if (a.length != b.length) {
             throw new ArithmeticException("Invalid arguments: matrix (a, b)");
         }
@@ -50,7 +60,7 @@ public class NeuralNetworkHopfield extends NeuralNetwork<BinaryImage[], Integer,
         return matrix;
     }
 
-    public static int[][] sum(int[][] a, int[][] b) {
+    private int[][] sum(int[][] a, int[][] b) {
         if (a.length != b.length || a[0].length != b[0].length) {
             throw new ArithmeticException("Invalid arguments: matrix (a, b)");
         }
@@ -62,9 +72,44 @@ public class NeuralNetworkHopfield extends NeuralNetwork<BinaryImage[], Integer,
                 sum[i][j] = a[i][j] + b[i][j];
             }
         }
-
         return sum;
     }
 
+    private int fNet(int net, int yOld) {
+        if (net > 0) {
+            return 1;
+        } else if (net < 0) {
+            return -1;
+        } else {
+            return yOld;
+        }
+    }
 
+    private int net(int[] signals, int index) {
+        int sum = 0;
+        for (int j = 0; j < signals.length; ++j) {
+            if (j == index) {
+                continue;
+            }
+            else {
+                sum += (signals[j] * weights[index][j]);
+            }
+        }
+        return sum;
+    }
+
+    private int epoch(int[] vectorizedImage) {
+        int changes = 0;
+        int newValue, oldValue;
+
+        for (int k = 0; k < vectorizedImage.length; ++k) {
+            oldValue = vectorizedImage[k];
+            newValue = fNet(net(vectorizedImage, k), oldValue);
+            if (oldValue != newValue) {
+                changes++;
+            }
+
+        }
+        return changes;
+    }
 }

@@ -27,7 +27,7 @@ public class NeuralNetworkHopfield extends NeuralNetwork<BinaryImage[], Integer,
     }
 
     @Override
-    public BinaryImage getResult(BinaryImage image) throws NeuralException {
+    public BinaryImage getResult(BinaryImage image) {
         int changes = 1;
 
         int[] vectorizedImage = BinaryImage.vectorize(image.getImage());
@@ -88,10 +88,7 @@ public class NeuralNetworkHopfield extends NeuralNetwork<BinaryImage[], Integer,
     private int net(int[] signals, int index) {
         int sum = 0;
         for (int j = 0; j < signals.length; ++j) {
-            if (j == index) {
-                continue;
-            }
-            else {
+            if (j != index) {
                 sum += (signals[j] * weights[index][j]);
             }
         }
@@ -101,15 +98,18 @@ public class NeuralNetworkHopfield extends NeuralNetwork<BinaryImage[], Integer,
     private int epoch(int[] vectorizedImage) {
         int changes = 0;
         int newValue, oldValue;
+        int[] output = new int[vectorizedImage.length];
 
         for (int k = 0; k < vectorizedImage.length; ++k) {
             oldValue = vectorizedImage[k];
             newValue = fNet(net(vectorizedImage, k), oldValue);
+            output[k] = newValue;
             if (oldValue != newValue) {
                 changes++;
             }
-
         }
+        System.arraycopy(output, 0, vectorizedImage, 0, vectorizedImage.length);
+
         return changes;
     }
 }

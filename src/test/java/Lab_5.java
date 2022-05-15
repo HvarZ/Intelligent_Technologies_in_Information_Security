@@ -43,5 +43,43 @@ public class Lab_5 {
         resultImage_3.print();
         resultImage_5.print();
         resultImage_7.print();
+
+        BinaryImage corrupt_image_3 = new BinaryImage(new int[][]{
+                {+1, +1, +1, +1, +1},
+                {-1, -1, -1, -1, +1},
+                {-1, -1, -1, -1, +1},
+                {-1, +1, -1, +1, -1},
+                {-1, -1, -1, -1, +1},
+                {+1, -1, +1, -1, +1},
+                {+1, +1, +1, +1, +1}
+        });
+
+        BinaryImage corrupt_image_5 = new BinaryImage(new int[][]{
+                {+1, +1, +1, +1, +1},
+                {+1, -1, -1, +1, -1},
+                {+1, -1, -1, -1, -1},
+                {+1, +1, -1, +1, +1},
+                {-1, +1, -1, -1, +1},
+                {-1, -1, -1, -1, +1},
+                {+1, +1, +1, -1, +1}
+        });
+
+        BinaryImage corrupt_image_7 = new BinaryImage(new int[][]{
+                {+1, +1, +1, +1, +1},
+                {-1, -1, -1, +1, -1},
+                {-1, -1, -1, +1, -1},
+                {-1, -1, -1, -1, -1},
+                {-1, -1, -1, -1, -1},
+                {-1, +1, -1, -1, -1},
+                {-1, +1, -1, -1, +1}
+        });
+
+        BinaryImage corruptResultImage_3 = network.getResult(corrupt_image_3);
+        BinaryImage corruptResultImage_5 = network.getResult(corrupt_image_5);
+        BinaryImage corruptResultImage_7 = network.getResult(corrupt_image_7);
+
+        corruptResultImage_3.print();
+        corruptResultImage_5.print();
+        corruptResultImage_7.print();
     }
 }

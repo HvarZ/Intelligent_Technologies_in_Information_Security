@@ -2,9 +2,18 @@ package com.RainCarnation;
 
 import com.RainCarnation.service.BinaryImage;
 
+import java.io.BufferedWriter;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+
 public class NeuralNetworkHopfield extends NeuralNetwork<BinaryImage[], Integer, BinaryImage, BinaryImage> {
     private int[][] weights;
     private int width;
+
+
+    public NeuralNetworkHopfield(OutputStream out) {
+        resultWriter = new BufferedWriter(new OutputStreamWriter(out));
+    }
 
     @Override
     public void fit(BinaryImage[] images, Integer... result) throws Exception {
@@ -24,6 +33,16 @@ public class NeuralNetworkHopfield extends NeuralNetwork<BinaryImage[], Integer,
         for (int i = 0; i < images.length; ++i) {
             weights = sum(weights, multiple(vectorizedImages[i], vectorizedImages[i]));
         }
+
+
+        resultWriter.write("===================  Hopfield: Fit report  ===================\n");
+
+        for (int[] line : weights) {
+            for (int weight: line) {
+                resultWriter.write(weight + " ");
+            }
+            resultWriter.write("\n");
+        }
     }
 
     @Override
@@ -40,9 +59,8 @@ public class NeuralNetworkHopfield extends NeuralNetwork<BinaryImage[], Integer,
     }
 
     @Override
-    public void showFitGraphics() throws Exception {
-
-    }
+    @Deprecated
+    public void showFitGraphics() {}
 
     private int[][] multiple(int[] a, int[] b) {
         if (a.length != b.length) {

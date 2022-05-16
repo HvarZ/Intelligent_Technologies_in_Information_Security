@@ -1,5 +1,10 @@
 package com.RainCarnation.service;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+
 public final class BinaryImage {
     int[][] image;
 
@@ -29,18 +34,20 @@ public final class BinaryImage {
         return vectorizeImage;
     }
 
-    public void print() {
+    public void print(OutputStream out) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out));
         for (int[] line : image) {
             for (int pixel : line) {
                 if (pixel == -1) {
-                    System.out.print(0);
+                    writer.write("0");
                 } else {
-                    System.out.print(pixel);
+                    writer.write(Integer.toString(pixel));
                 }
             }
-            System.out.println();
+            writer.write('\n');
         }
-        System.out.println();
+        writer.write('\n');
+        writer.flush();
     }
 
 }

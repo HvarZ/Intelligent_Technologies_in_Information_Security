@@ -5,7 +5,7 @@ import com.RainCarnation.service.Measurable;
 import java.io.OutputStream;
 
 public class NeuralNetworkKohonen<T extends Measurable, Cluster extends Measurable> extends NeuralNetwork<T[], Cluster, T, Cluster> {
-    Cluster[] clusters;
+    private Cluster[] clusters;
     @Override
     public void fit(T[] matrix, Cluster... result) throws Exception {
         if (matrix.length == 0 || result.length == 0) {

@@ -1,5 +1,6 @@
 import com.RainCarnation.service.Measurable;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
@@ -8,7 +9,7 @@ import java.io.IOException;
 import java.io.Reader;
 
 public class Lab_6 {
-    public class Hospital implements Measurable {
+    public static class Hospital implements Measurable {
         private final double X;
         private final double Y;
         private final String name;
@@ -42,15 +43,39 @@ public class Lab_6 {
         }
     }
 
-
-    static public void main(String[] args) throws ParseException {
+    private static Hospital[] parseJsonToHospitals(String filename) {
         JSONParser parser = new JSONParser();
+        Hospital[] hospitals = null;
+        try (Reader reader = new FileReader(filename)) {
+            JSONArray hospitalsJ = (JSONArray) parser.parse(reader);
+            hospitals = new Hospital[hospitalsJ.size()];
+            JSONObject hospital, geoData = null;
+            JSONArray coordinates, district = null;
+            double x, y;
+            String name, area;
+            for (int i = 0; i < hospitalsJ.size(); ++i) {
+                hospital = (JSONObject) hospitalsJ.get(i);
+                name = (String)hospital.get("FullName");
 
-        try (Reader reader = new FileReader("/Users/hvarz/IdeaProjects/Intelligent_Technologies/src/test/resources/Hospitals.json")) {
-            JSONArray hospitals = (JSONArray) parser.parse(reader);
-            System.out.println("Hello world");
-        } catch (IOException exception ) {
+                district = (JSONArray) hospital.get("ObjectAddress");
+                area = (String) ((JSONObject) district.get(0)).get("AdmArea");
+
+                geoData = (JSONObject) hospital.get("geoData");
+                coordinates = (JSONArray)((JSONArray) geoData.get("coordinates")).get(0);
+                x = (double) coordinates.get(0);
+                y = (double) coordinates.get(1);
+
+                hospitals[i] = new Hospital(x, y, name, area);
+            }
+        } catch (IOException | ParseException exception) {
             exception.printStackTrace();
         }
+        return hospitals;
+    }
+
+    static public void main(String[] args) throws ParseException {
+        Hospital[] hospitals = parseJsonToHospitals("src/test/resources/Hospitals.json");
+
+        System.out.println(124);
     }
 }

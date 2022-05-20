@@ -5,9 +5,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 
 public class Lab_6 {
     public static class District implements Measurable {
@@ -132,6 +130,9 @@ public class Lab_6 {
         Hospital[] hospitals = parseJsonToHospitals("src/test/resources/Hospitals.json");
         District[] districts = parseJsonToDistricts("src/test/resources/Districts.json");
 
+        Writer writer = new FileWriter("results/lab_6.txt");
+        writer.write("==========================   Больницы Москвы   ==========================\n");
+
         NeuralNetworkKohonen<Hospital, District> network = new NeuralNetworkKohonen<>();
         network.fit(hospitals, districts);
 
@@ -139,13 +140,16 @@ public class Lab_6 {
         District district;
         for (Hospital hospital: hospitals) {
             district = network.getResult(hospital);
+            writer.write(hospital.getId() + ": " + district.getId());
             if (district.getId().equals(hospital.getArea())) {
-                System.out.print(1);
+                writer.write(" - true\n");
                 counter++;
             } else {
-                System.out.print(0);
+                writer.write(" - false\n");
             }
         }
-        System.out.println(" " + (counter / hospitals.length) * 100);
+        System.out.println("Точность предсказания: " + (counter / hospitals.length) * 100 + "%");
+
+        writer.close();
     }
 }

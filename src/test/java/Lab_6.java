@@ -148,7 +148,7 @@ public class Lab_6 {
                 writer.write(" - false\n");
             }
         }
-        System.out.println("Точность предсказания: " + (counter / hospitals.length) * 100 + "%");
+        System.out.println("Prediction accuracy: " + (counter / hospitals.length) * 100 + "%");
 
         writer.close();
     }

@@ -11,7 +11,7 @@ import java.util.List;
 
 import static java.lang.Math.*;
 
-public final class NeuralNetworkNJM extends NeuralNetwork<Double[][], Double, Double[], Double[]> {
+public final class NeuralNetworkNJM extends NeuralNetwork {
     private double[] weights;
     private double trainingNorm;
     private int inputs;
@@ -44,7 +44,10 @@ public final class NeuralNetworkNJM extends NeuralNetwork<Double[][], Double, Do
     }
 
     @Override
-    public void fit(Double[][] input, Double... result) throws Exception {
+    public <InputType, ResultType> void fit(InputType matrixInput, ResultType... resultInput) throws Exception {
+        if (!(matrixInput instanceof Double[][] input && resultInput instanceof Double[] result)) {
+            throw new NeuralException("Invalid input type");
+        }
         if (input.length <= 0) {
             throw new NeuralException("Fit: Input data is clear");
         }
@@ -141,7 +144,10 @@ public final class NeuralNetworkNJM extends NeuralNetwork<Double[][], Double, Do
     }
 
     @Override
-    public Double[] getResult(Double[] input) {
+    public <FinalInputType, FinalResultType> FinalResultType getResult(FinalInputType inputVector) throws NeuralException {
+        if (!(inputVector instanceof Double[] input)) {
+            throw new NeuralException("Invalid input type");
+        }
         double net = 0;
         double[] outsHidden = new double[numberHiddenNeurons];
         net = getNet(outsHidden, net, input);
@@ -160,7 +166,7 @@ public final class NeuralNetworkNJM extends NeuralNetwork<Double[][], Double, Do
             net = 0;
         }
 
-        return outsOut;
+        return (FinalResultType) outsOut;
     }
 
     @Override

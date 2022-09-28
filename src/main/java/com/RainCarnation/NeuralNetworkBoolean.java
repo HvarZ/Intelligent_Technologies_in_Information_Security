@@ -11,7 +11,7 @@ import java.util.List;
 
 import com.github.sh0nk.matplotlib4j.Plot;
 
-public abstract class NeuralNetworkBoolean extends NeuralNetwork<Boolean[][], Boolean, Boolean[], Boolean> {
+public abstract class NeuralNetworkBoolean extends NeuralNetwork {
     protected double[] weights;
     protected double trainingNorm;
     protected List<Integer> numberErrors;
@@ -19,7 +19,11 @@ public abstract class NeuralNetworkBoolean extends NeuralNetwork<Boolean[][], Bo
     protected Boolean[] resultVector;
 
     @Override
-    public void fit(Boolean[][] matrix, Boolean... result) throws Exception {
+    public <InputType, ResultType> void fit(InputType matrixInput, ResultType... resultInput) throws Exception {
+        if (!(matrixInput instanceof Boolean[][] matrix && resultInput instanceof Boolean[] result)) {
+            throw new NeuralException("Invalid input type");
+        }
+
         if (matrix.length <= 0 || matrix[0].length <= 0) {
             throw new NeuralException("Input data is clear");
         }
@@ -57,12 +61,19 @@ public abstract class NeuralNetworkBoolean extends NeuralNetwork<Boolean[][], Bo
         } while (errorCount != 0);
     }
 
+
     @Override
-    public Boolean getResult(Boolean[] input) throws NeuralException {
+    public <FinalInputType, FinalResultType> FinalResultType getResult(FinalInputType inputVector) throws NeuralException {
+        if (!(inputVector instanceof Boolean[] input)) {
+            throw new NeuralException("Invalid input type");
+        }
+
         if (input.length != weights.length - 1) {
             throw new NeuralException("Invalid variables set");
         }
-        return fNet(net(input)) == 1;
+        Boolean result = fNet(net(input)) == 1;
+
+        return (FinalResultType) result;
     }
 
     @Override

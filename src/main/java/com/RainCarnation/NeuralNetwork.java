@@ -7,13 +7,14 @@ import java.io.OutputStreamWriter;
 
 // T - type for input data (test or fit data)
 // R - type for result data
-public abstract class NeuralNetwork<InputType, ResultType, FinalInputType, FinalResultType> {
+public abstract class NeuralNetwork {
     protected BufferedWriter resultWriter;
     protected String fitInfo;
 
-    public abstract void fit(InputType matrix, ResultType... result) throws Exception;
+    public abstract <InputType, ResultType> void fit(InputType matrix, ResultType... result) throws Exception;
 
-    public abstract FinalResultType getResult(FinalInputType input) throws NeuralException;
+    public abstract <FinalInputType, FinalResultType> FinalResultType getResult(FinalInputType input) throws NeuralException;
+
 
     public abstract void showFitGraphics() throws Exception;
 

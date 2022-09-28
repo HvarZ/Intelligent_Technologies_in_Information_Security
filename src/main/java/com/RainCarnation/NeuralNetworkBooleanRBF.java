@@ -6,8 +6,12 @@ import java.util.Arrays;
 public abstract class NeuralNetworkBooleanRBF extends NeuralNetworkBoolean {
     protected Boolean[] resultBooleanFunction;
 
+
     @Override
-    public void fit(Boolean[][] matrix, Boolean[] result) throws Exception {
+    public <InputType, ResultType> void fit(InputType matrixInput, ResultType... resultInput) throws Exception {
+        if (!(matrixInput instanceof Boolean[][] matrix && resultInput instanceof Boolean[] result)) {
+            throw new NeuralException("Invalid input type");
+        }
         if (matrix.length <= 0 || matrix[0].length <= 0) {
             throw new NeuralException("Input data is clear");
         }
@@ -56,12 +60,15 @@ public abstract class NeuralNetworkBooleanRBF extends NeuralNetworkBoolean {
 
 
     @Override
-    public Boolean getResult(Boolean[] input) {
+    public <FinalInputType, FinalResultType> FinalResultType getResult(FinalInputType inputVector) throws NeuralException {
+        if (!(inputVector instanceof Boolean[] input)) {
+            throw new NeuralException("Invalid input type");
+        }
         Boolean[][] standardMatrix = getStandardMatrix(input.length);
         Boolean[][] C = getMinResultFunction(standardMatrix, resultBooleanFunction);
         double[] X = new double[C.length];
 
-        return directPassage(input, C, X);
+        return (FinalResultType) directPassage(input, C, X);
     }
 
     @Override

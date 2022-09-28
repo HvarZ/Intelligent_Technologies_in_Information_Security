@@ -6,7 +6,7 @@ import java.io.BufferedWriter;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
-public class NeuralNetworkHopfield extends NeuralNetwork<BinaryImage[], Integer, BinaryImage, BinaryImage> {
+public class NeuralNetworkHopfield extends NeuralNetwork {
     private int[][] weights;
     private int width;
 
@@ -16,7 +16,10 @@ public class NeuralNetworkHopfield extends NeuralNetwork<BinaryImage[], Integer,
     }
 
     @Override
-    public void fit(BinaryImage[] images, Integer... result) throws Exception {
+    public <InputType, ResultType> void fit(InputType matrixInput, ResultType... resultInput) throws Exception {
+        if (!(matrixInput instanceof BinaryImage[] images)) {
+            throw new NeuralException("Invalid input type");
+        }
         if (images.length <= 0) {
             throw new NeuralException("Input data is clear");
         }
@@ -46,7 +49,10 @@ public class NeuralNetworkHopfield extends NeuralNetwork<BinaryImage[], Integer,
     }
 
     @Override
-    public BinaryImage getResult(BinaryImage image) {
+    public <FinalInputType, FinalResultType> FinalResultType getResult(FinalInputType inputVector) throws NeuralException {
+        if (!(inputVector instanceof BinaryImage image)) {
+            throw new NeuralException("Invalid input type");
+        }
         int changes = 1;
 
         int[] vectorizedImage = BinaryImage.vectorize(image.getImage());
@@ -54,7 +60,7 @@ public class NeuralNetworkHopfield extends NeuralNetwork<BinaryImage[], Integer,
         while (changes != 0) {
             changes = epoch(vectorizedImage);
         }
-        return new BinaryImage(vectorizedImage, width);
+        return (FinalResultType) new BinaryImage(vectorizedImage, width);
 
     }
 

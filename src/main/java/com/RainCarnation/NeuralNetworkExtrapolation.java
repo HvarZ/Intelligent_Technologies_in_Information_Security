@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.Arrays;
 
 
-public final class NeuralNetworkExtrapolation extends NeuralNetwork<Double[], Double, Double, Double> {
+public final class NeuralNetworkExtrapolation extends NeuralNetwork {
     @FunctionalInterface
     public interface Function {
         double result(double i);
@@ -54,7 +54,10 @@ public final class NeuralNetworkExtrapolation extends NeuralNetwork<Double[], Do
     }
 
     @Override
-    public void fit(Double[] matrix, Double... result) throws Exception {
+    public <InputType, ResultType> void fit(InputType matrixInput, ResultType... resultInput) throws Exception {
+        if (!(matrixInput instanceof Double[] matrix && resultInput instanceof Double[] result)) {
+            throw new NeuralException("Invalid input type");
+        }
         if (matrix.length <= 0) {
             throw new NeuralException("Fit: Input data is clear");
         }
@@ -106,8 +109,11 @@ public final class NeuralNetworkExtrapolation extends NeuralNetwork<Double[], Do
     }
 
     @Override
-    public Double getResult(Double input) throws NeuralException {
-        double net = 0;
+    public <FinalInputType, FinalResultType> FinalResultType getResult(FinalInputType inputVector) throws NeuralException {
+        if (!(inputVector instanceof Double input)) {
+            throw new NeuralException("Invalid input type");
+        }
+        Double net = 0d;
         LinkedList<Double> windowList = new LinkedList<>();
         Collections.addAll(windowList, lastWindow);
         for (int i = 0; i < getTurnToResult(input); ++i) {
@@ -115,7 +121,7 @@ public final class NeuralNetworkExtrapolation extends NeuralNetwork<Double[], Do
             windowList.remove(0);
             windowList.add(net);
         }
-        return net;
+        return (FinalResultType) net;
     }
 
     public void addGraphicToPlot(Double[] X, Double[] Y) {

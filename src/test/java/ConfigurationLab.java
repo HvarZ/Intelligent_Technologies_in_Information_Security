@@ -33,9 +33,9 @@ public class ConfigurationLab {
 
 
     @Bean
-    public NeuralNetworkBoolean thresholdFull() throws Exception {
+    public NeuralNetwork thresholdFull() throws Exception {
         out = new FileOutputStream(filename_1, true);
-        NeuralNetworkBoolean network = new NeuralNetworkBooleanThreshold(trainingNorm, out);
+        NeuralNetwork network = new NeuralNetworkBooleanThreshold(trainingNorm, out);
         Boolean[][] matrixFull = NeuralNetworkBoolean.getStandardMatrix(numberVariables);
         network.fit(matrixFull, NeuralNetworkBoolean.convertStringVectorToArray(resultFull));
 
@@ -43,18 +43,18 @@ public class ConfigurationLab {
     }
 
     @Bean
-    public NeuralNetworkBoolean thresholdPart() throws Exception {
+    public NeuralNetwork thresholdPart() throws Exception {
         out = new FileOutputStream(filename_1, true);
-        NeuralNetworkBoolean network = new NeuralNetworkBooleanThreshold(trainingNorm, out);
+        NeuralNetwork network = new NeuralNetworkBooleanThreshold(trainingNorm, out);
         network.fit(NeuralNetworkBoolean.convertStringVectorsToMatrix(matrixPart), NeuralNetworkBoolean.convertStringVectorToArray(resultPart));
 
         return network;
     }
 
     @Bean
-    public NeuralNetworkBoolean logisticFull() throws Exception {
+    public NeuralNetwork logisticFull() throws Exception {
         out = new FileOutputStream(filename_1, true);
-        NeuralNetworkBoolean network = new NeuralNetworkBooleanLogistic(trainingNorm, out);
+        NeuralNetwork network = new NeuralNetworkBooleanLogistic(trainingNorm, out);
         Boolean[][] matrixFull = NeuralNetworkBoolean.getStandardMatrix(numberVariables);
         network.fit(matrixFull, NeuralNetworkBoolean.convertStringVectorToArray(resultFull));
 
@@ -64,9 +64,9 @@ public class ConfigurationLab {
 
     @Bean
     @Scope("prototype")
-    public NeuralNetworkBoolean logisticPart() throws Exception {
+    public NeuralNetwork logisticPart() throws Exception {
         out = new FileOutputStream(filename_1, true);
-        NeuralNetworkBoolean network = new NeuralNetworkBooleanLogistic(trainingNorm, out);
+        NeuralNetwork network = new NeuralNetworkBooleanLogistic(trainingNorm, out);
         network.fit(NeuralNetworkBoolean.convertStringVectorsToMatrix(matrixPart), NeuralNetworkBoolean.convertStringVectorToArray(resultPart));
 
         return network;
@@ -104,7 +104,7 @@ public class ConfigurationLab {
 
     @Bean
     @Scope("prototype")
-    public NeuralNetworkExtrapolation extrapolation() throws Exception {
+    public NeuralNetwork extrapolation() throws Exception {
         out = new FileOutputStream(filename_2, true);
         Double[][] discreteValues = NeuralNetworkExtrapolation.generateDiscreteFunction(a_1, b_1, numberPoints, Math::tan);
         Double[][] discreteValues_2 = NeuralNetworkExtrapolation.generateDiscreteFunction(a_2, b_2, numberPoints, Math::tan);
@@ -138,9 +138,9 @@ public class ConfigurationLab {
 
     @Bean
     @Scope("prototype")
-    public NeuralNetworkBoolean RBFThreshold() throws Exception {
+    public NeuralNetwork RBFThreshold() throws Exception {
         out = new FileOutputStream(filename_3, true);
-        NeuralNetworkBoolean network =
+        NeuralNetwork network =
                 new NeuralNetworkBooleanRBFT(trainingNorm_3, NeuralNetworkBoolean.convertStringVectorToArray(resultFull_3), out);
         network.fit(NeuralNetworkBoolean.convertStringVectorsToMatrix(matrixPart_3), NeuralNetworkBoolean.convertStringVectorToArray(resultPart_3));
 
@@ -149,9 +149,9 @@ public class ConfigurationLab {
 
     @Bean
     @Scope("prototype")
-    public NeuralNetworkBoolean RBFLogistic() throws Exception {
+    public NeuralNetwork RBFLogistic() throws Exception {
         out = new FileOutputStream(filename_3, true);
-        NeuralNetworkBoolean network =
+        NeuralNetwork network =
                 new NeuralNetworkBooleanRBFL(trainingNorm_3, NeuralNetworkBoolean.convertStringVectorToArray(resultFull_3), out);
         network.fit(NeuralNetworkBoolean.convertStringVectorsToMatrix(matrixPart_3), NeuralNetworkBoolean.convertStringVectorToArray(resultPart_3));
 
@@ -184,9 +184,9 @@ public class ConfigurationLab {
 
     @Bean
     @Scope("prototype")
-    public NeuralNetworkNJM njm() throws Exception {
+    public NeuralNetwork njm() throws Exception {
         out = new FileOutputStream(filename_4, true);
-        NeuralNetworkNJM network = new NeuralNetworkNJM(trainingNorm_4, architecture_4, out);
+        NeuralNetwork network = new NeuralNetworkNJM(trainingNorm_4, architecture_4, out);
         Double[][] testData = new Double[][]{{test_data_1, test_data_2, test_data_3}};
 
         network.fit(testData, fit_data_1, fit_data_2);
